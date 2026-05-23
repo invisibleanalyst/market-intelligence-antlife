@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AntLife &#x2014; Market Entry Intelligence</title>
+<meta name="description" content="Know exactly which market to enter before you commit. Market entry intelligence for African founders." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<script>(function(){var c=document.createElement('canvas'),x=c.getContext('2d');c.width=c.height=32;x.fillStyle='#1a4a2e';x.fillRect(0,0,32,32);x.fillStyle='#fff';x.font='700 22px Arial,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('A',16,17);var l=document.createElement('link');l.rel='icon';l.href=c.toDataURL();document.head.appendChild(l)})();</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #111;
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'tnum' 1;
+  }
+  h1, h2, h3, h4, button, nav a, .nav-link, .tab, .cta, .masthead-brand .wordmark, .pkg-price, .pkg-roman, .tt-name, .rank-table td.name {
+    font-family: 'Outfit', sans-serif;
+  }
+  a { color: inherit; }
+
+  :root {
+    --bg: #fff;
+    --bg-soft: #f7f7f7;
+    --ink: #111111;
+    --ink-2: #555555;
+    --ink-3: #888888;
+    --rule: #e0e0e0;
+    --rule-dark: #333333;
+    --green: #1a4a2e;
+    --green-hover: #143a24;
+    --dark-card: #1a1a1a;
+    --side: clamp(24px, 5vw, 96px);
+    --section-y: clamp(96px, 12vw, 160px);
+  }
+
+  .eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 400;
+  }
+  .rule-thin { height: 1px; background: var(--rule); border: 0; margin: 0; }
+  .frame { padding-left: var(--side); padding-right: var(--side); }
+  .section { padding-top: var(--section-y); padding-bottom: var(--section-y); }
+
+  /* ANIMATIONS */
+  .anim {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1), transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .anim.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* MASTHEAD */
+  .masthead { background: var(--ink); color: #fff; padding: 24px var(--side); }
+  .masthead-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+  }
+  .masthead-vol, .masthead-url {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #aaa;
+    text-decoration: none;
+  }
+  .masthead-url { text-align: right; }
+  .masthead-brand { text-align: center; line-height: 1; }
+  .masthead-brand .wordmark {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 44px);
+    letter-spacing: -0.02em;
+  }
+  .masthead-brand .tagline {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    background: #fff;
+    border-bottom: 1px solid var(--rule);
+    padding: 18px var(--side);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+  .nav-links { display: flex; gap: clamp(20px, 3vw, 48px); }
+  .nav-link {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s;
+  }
+  .nav-link:hover { border-bottom-color: var(--ink); }
+  .nav-brand-mobile { display: none; }
+  .hamburger {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--ink);
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+  }
+  .hamburger span {
+    position: absolute;
+    left: 10px; right: 10px;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform .25s, opacity .2s, top .25s;
+  }
+  .hamburger span:nth-child(1) { top: 14px; }
+  .hamburger span:nth-child(2) { top: 21px; }
+  .hamburger span:nth-child(3) { top: 28px; }
+  .hamburger.open span:nth-child(1) { top: 21px; transform: rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { top: 21px; transform: rotate(-45deg); }
+  .mobile-menu {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: #fff;
+    border-bottom: 1px solid var(--rule);
+    padding: 8px var(--side) 24px;
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-menu a {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* HERO */
+  .hero { padding-top: var(--section-y); padding-bottom: var(--section-y); }
+  .hero-top {
+    display: grid;
+    grid-template-columns: 60px minmax(0, 1fr);
+    column-gap: clamp(32px, 4vw, 64px);
+    align-items: end;
+    margin-bottom: 56px;
+  }
+  .hero-vlabel {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .hero-headline {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(64px, 11.5vw, 184px);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    margin: 0;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .hero-headline .before {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: clamp(32px, 4vw, 64px);
+    padding-top: 28px;
+    border-top: 1px solid var(--ink);
+    margin-top: 8px;
+  }
+  .hero-stat .eyebrow { margin-bottom: 12px; display: block; }
+  .hero-stat p {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0;
+    max-width: 360px;
+    text-wrap: pretty;
+  }
+  .hero-cta-row {
+    margin-top: clamp(40px, 5vw, 64px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px 32px;
+  }
+  .cta {
+    display: inline-block;
+    background: var(--green);
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 18px 28px;
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .cta:hover { background: var(--green-hover); }
+  .cta-fine { font-size: 13px; color: var(--ink-2); }
+
+  /* CHART SECTION */
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .chart-heading {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 52px);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin: 0 0 48px;
+    max-width: 900px;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 56px;
+  }
+  .tab {
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    padding: 16px 22px;
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
+    margin-bottom: -1px;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+  .chart-layout {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    column-gap: clamp(40px, 5vw, 80px);
+    align-items: start;
+  }
+
+  .chart-wrap { position: relative; padding-left: 56px; }
+  .chart-axis {
+    position: absolute;
+    left: 0; top: 0; bottom: 60px;
+    width: 56px;
+    pointer-events: none;
+  }
+  .chart-axis-label {
+    position: absolute;
+    left: 0; right: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    color: var(--ink-3);
+    text-align: right;
+    transform: translateY(-50%);
+  }
+  .chart-bars {
+    position: relative;
+    height: 360px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: clamp(10px, 1.5vw, 24px);
+    align-items: end;
+    border-bottom: 1px solid var(--ink);
+  }
+  .bar-col {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .bar {
+    width: 100%;
+    background: var(--ink-3);
+    height: 0;
+    transition: height 400ms cubic-bezier(.4,0,.2,1), background-color .15s;
+    cursor: pointer;
+  }
+  .bar.leading { background: var(--ink); }
+  .bar:hover { background: var(--ink); }
+  .bar-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -12px);
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 16px;
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s;
+    z-index: 4;
+  }
+  .bar-col:hover .bar-tooltip { opacity: 1; }
+  .bar-tooltip .tt-name { font-family: 'Outfit', sans-serif; font-weight: 500; font-size: 13px; margin-bottom: 4px; display: block; }
+  .bar-tooltip .tt-val strong { font-weight: 600; }
+  .bar-tooltip .tt-source { color: #999; font-size: 11px; margin-top: 4px; display: block; }
+
+  .chart-xaxis {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: clamp(10px, 1.5vw, 24px);
+    padding-top: 14px;
+    padding-left: 56px;
+  }
+  .chart-xaxis .xcol { display: flex; flex-direction: column; gap: 4px; }
+  .chart-xaxis .xname { font-family: 'Outfit', sans-serif; font-weight: 500; font-size: 14px; color: var(--ink); }
+  .chart-xaxis .xval { font-family: 'Space Grotesk', sans-serif; font-size: 12px; color: var(--ink-2); }
+
+  /* RANK SIDE PANEL */
+  .rank-side { border: 1px solid var(--rule); background: #fff; }
+  .rank-side .rs-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--ink);
+    background: var(--ink);
+    color: #fff;
+  }
+  .rank-side .rs-header .eyebrow { color: #aaa; display: block; margin-bottom: 6px; }
+  .rank-side .rs-header .rs-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.005em;
+  }
+  .rank-table { width: 100%; border-collapse: collapse; }
+  .rank-table th {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+    font-weight: 400;
+  }
+  .rank-table th.num { text-align: right; }
+  .rank-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink);
+    vertical-align: middle;
+  }
+  .rank-table td.rank { color: var(--ink-3); font-size: 12px; width: 36px; font-weight: 400; }
+  .rank-table td.num { text-align: right; }
+  .rank-table tr:last-child td { border-bottom: 0; }
+  .rank-table tr.leading td { background: #f7f7f7; }
+  .rank-table tr.leading td.rank { color: var(--ink); }
+  .rank-table tr.leading td.name::before {
+    content: "\25CF";
+    color: var(--ink);
+    margin-right: 8px;
+    font-size: 10px;
+    vertical-align: middle;
+  }
+
+  .chart-reading {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 56px;
+  }
+  .chart-reading .eyebrow { display: block; margin-bottom: 10px; }
+  .chart-reading p { font-size: 15px; line-height: 1.6; color: var(--ink); margin: 0; text-wrap: pretty; }
+  .chart-reading p.caveat { color: var(--ink-2); }
+  .chart-reading p strong { color: var(--ink); font-weight: 600; }
+
+  /* PROBLEM */
+  .problem { background: var(--bg-soft); }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+    margin-top: 48px;
+  }
+  .problem-statement {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .problem-points { display: flex; flex-direction: column; }
+  .problem-point {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    column-gap: 20px;
+    padding: 24px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .problem-point:last-child { border-bottom: 1px solid var(--rule); }
+  .problem-point .pp-num {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--green);
+    letter-spacing: 0.04em;
+  }
+  .problem-point .pp-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+  }
+  .problem-point .pp-body {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  /* PACKAGES */
+  .packages { background: var(--ink); color: #fff; }
+  .packages .eyebrow { color: var(--ink-3); }
+  .pkg-heading {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin: 18px 0 64px;
+    color: #fff;
+    text-wrap: balance;
+  }
+  .pkg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .pkg {
+    background: var(--dark-card);
+    border: 1px solid var(--rule-dark);
+    padding: clamp(32px, 4vw, 48px);
+    display: flex;
+    flex-direction: column;
+    min-height: 560px;
+  }
+  .pkg-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 28px; }
+  .pkg-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .pkg-roman { font-family: 'Outfit', sans-serif; font-weight: 500; font-size: 13px; color: var(--ink-3); }
+  .pkg-price-row { display: flex; align-items: baseline; gap: 10px; }
+  .pkg-price {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(56px, 7vw, 96px);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: #fff;
+  }
+  .pkg-currency {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    vertical-align: super;
+  }
+  .pkg-delivery { font-size: 14px; color: var(--ink-3); margin: 10px 0 32px; }
+  .pkg-desc { font-size: 15px; line-height: 1.6; color: #fff; margin: 0 0 28px; text-wrap: pretty; }
+  .pkg-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px;
+    border-top: 1px solid var(--rule-dark);
+    flex: 1;
+  }
+  .pkg-list li {
+    display: flex;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule-dark);
+    font-size: 14px;
+    color: var(--ink-3);
+  }
+  .pkg-list li .li-n {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    color: var(--ink-3);
+    min-width: 18px;
+  }
+  .pkg-list li .li-t { color: #ddd; }
+  .pkg .cta { align-self: flex-start; }
+  .pkg-footer { text-align: center; margin-top: 48px; font-size: 14px; color: var(--ink-3); }
+  .pkg-footer a { color: #fff; text-decoration: none; border-bottom: 1px solid #fff; padding-bottom: 1px; }
+
+  /* PROCESS */
+  .process .eyebrow { display: block; margin-bottom: 18px; }
+  .process h2 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(40px, 5vw, 64px);
+    letter-spacing: -0.03em;
+    margin: 0 0 80px;
+    line-height: 1.05;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: clamp(24px, 3vw, 48px);
+  }
+  .step { padding-top: 24px; border-top: 1px solid var(--ink); }
+  .step-n {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(72px, 9vw, 120px);
+    color: var(--green);
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+    margin-bottom: 28px;
+  }
+  .step-t {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    margin: 0 0 12px;
+  }
+  .step-d { font-size: 15px; line-height: 1.6; color: var(--ink-2); margin: 0; text-wrap: pretty; }
+
+  /* FOOTER */
+  footer.site-footer {
+    background: var(--ink);
+    color: #fff;
+    padding: clamp(48px, 7vw, 80px) var(--side) 36px;
+  }
+  .footer-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: baseline;
+    gap: 24px;
+  }
+  .footer-row .f-brand .wordmark {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+  }
+  .footer-row .f-brand .tagline { font-size: 12px; color: var(--ink-3); margin-top: 8px; letter-spacing: 0.04em; }
+  .footer-row .f-url { text-align: center; font-size: 15px; }
+  .footer-row .f-email { text-align: right; font-size: 15px; }
+  .footer-row a { color: #fff; text-decoration: none; }
+  .footer-disclaimer {
+    margin-top: clamp(40px, 6vw, 72px);
+    padding-top: 28px;
+    border-top: 1px solid var(--rule-dark);
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .chart-layout { grid-template-columns: 1fr; row-gap: 48px; }
+    .hero-stats { grid-template-columns: 1fr; row-gap: 28px; }
+    .problem-grid { grid-template-columns: 1fr; row-gap: 48px; }
+  }
+  @media (max-width: 768px) {
+    :root { --section-y: 80px; }
+    .masthead-row { grid-template-columns: auto 1fr auto; gap: 16px; }
+    .masthead-vol, .masthead-url { display: none; }
+    .masthead-brand { text-align: left; }
+    .masthead-brand .wordmark { font-size: 28px; }
+    .navbar { padding: 12px var(--side); position: relative; }
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .nav-brand-mobile {
+      display: block;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .hero-top { grid-template-columns: 1fr; row-gap: 24px; }
+    .hero-vlabel { writing-mode: horizontal-tb; transform: none; height: auto; display: block; text-align: left; }
+    .chart-wrap { padding-left: 40px; }
+    .chart-axis { width: 40px; bottom: 60px; }
+    .chart-bars { height: 280px; }
+    .chart-xaxis { padding-left: 40px; }
+    .chart-xaxis .xname { font-size: 11px; }
+    .chart-xaxis .xval { font-size: 10px; }
+    .tab { padding: 14px 14px; font-size: 11px; letter-spacing: 0.12em; }
+    .chart-reading { grid-template-columns: 1fr; }
+    .pkg-grid { grid-template-columns: 1fr; }
+    .pkg { min-height: 0; }
+    .process-grid { grid-template-columns: 1fr; row-gap: 56px; }
+    .footer-row { grid-template-columns: 1fr; row-gap: 24px; text-align: left; }
+    .footer-row .f-url, .footer-row .f-email { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-row">
+    <div class="masthead-vol">Vol. 1 &middot; No. 001</div>
+    <div class="masthead-brand">
+      <div class="wordmark">AntLife</div>
+      <div class="tagline">Market Entry Intelligence</div>
+    </div>
+    <a class="masthead-url" href="https://antlife.one">antlife.one</a>
+  </div>
+</header>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-links">
+      <a class="nav-link" href="#intelligence">Intelligence</a>
+      <a class="nav-link" href="#methodology">Methodology</a>
+      <a class="nav-link" href="#packages">Packages</a>
+      <a class="nav-link" href="#process">Process</a>
+      <a class="nav-link" href="#contact">Contact</a>
+    </div>
+    <div class="nav-brand-mobile">AntLife</div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#intelligence">Intelligence</a>
+    <a href="#methodology">Methodology</a>
+    <a href="#packages">Packages</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero frame" id="intelligence">
+  <div class="hero-top">
+    <div class="hero-vlabel">Lead Brief &middot; Market Entry Intelligence for African Founders</div>
+    <h1 class="hero-headline anim">
+      Know exactly which market<br>to enter <span class="before">before</span> you commit.
+    </h1>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat anim" data-delay="0">
+      <span class="eyebrow">Premise</span>
+      <p>African founders who enter the wrong market first rarely get a second chance. The capital that funds market entry is the same capital that funds survival.</p>
+    </div>
+    <div class="hero-stat anim" data-delay="100">
+      <span class="eyebrow">Method</span>
+      <p>We model the first-year economics of your specific business in candidate markets using verified public data. Every number is sourced and independently reproducible.</p>
+    </div>
+    <div class="hero-stat anim" data-delay="200">
+      <span class="eyebrow">Outcome</span>
+      <p>You receive a ranked analysis with a clear recommendation &#x2014; built for your business, not a generic country report.</p>
+    </div>
+  </div>
+  <div class="hero-cta-row anim" data-delay="100">
+    <a class="cta" href="#packages">Get your market analysis</a>
+    <div class="cta-fine">48-hour delivery &middot; Every number publicly sourced &middot; Verifiable methodology</div>
+  </div>
+</section>
+
+<hr class="rule-thin" />
+
+<section class="section frame" id="methodology">
+  <div class="chart-header">
+    <span class="eyebrow anim">Figure 01 &middot; Sample analysis &middot; Illustrative SaaS $35 ARPU</span>
+    <span class="eyebrow anim" data-delay="100">Source: AntLife model &middot; World Bank &middot; GSMA &middot; public regulators</span>
+  </div>
+  <h2 class="chart-heading anim">Compare six African markets across the metrics that actually decide entry.</h2>
+
+  <div class="tabs anim">
+    <button class="tab active" data-metric="rev">Y1 Revenue Potential</button>
+    <button class="tab" data-metric="cac">Customer Acquisition Cost</button>
+    <button class="tab" data-metric="reg">Regulatory Friction</button>
+    <button class="tab" data-metric="dem">Addressable Demand</button>
+  </div>
+
+  <div class="chart-layout">
+    <div>
+      <div class="chart-wrap">
+        <div class="chart-axis" id="chartAxis"></div>
+        <div class="chart-bars" id="chartBars"></div>
+      </div>
+      <div class="chart-xaxis" id="chartXAxis"></div>
+    </div>
+    <aside class="rank-side">
+      <div class="rs-header">
+        <span class="eyebrow">Live ranking &middot; <span id="rsMetricLabel">year-one revenue potential</span></span>
+        <div class="rs-title">Ranked 1 &#x2192; 6 &middot; best to worst</div>
+      </div>
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Market</th>
+            <th class="num" id="rsHeadVal">Value</th>
+          </tr>
+        </thead>
+        <tbody id="rankBody"></tbody>
+      </table>
+    </aside>
+  </div>
+
+  <div class="chart-reading">
+    <div class="anim">
+      <span class="eyebrow">Reading</span>
+      <p>Under the illustrative $35 ARPU SaaS profile, <strong id="readingMarket">South Africa</strong> ranks best on <span id="readingMetric">year-one revenue potential</span>. A real engagement re-runs every metric against your specific unit economics and weights them to your goals.</p>
+    </div>
+    <div class="anim" data-delay="100">
+      <span class="eyebrow">Caveat</span>
+      <p class="caveat">Figures above are an illustrative composite for a generic $35 ARPU SaaS to demonstrate the format. Your delivered report uses your business, your assumptions, and full source citation on every line.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-thin" />
+
+<section class="problem section frame">
+  <span class="eyebrow anim">The Case</span>
+  <div class="problem-grid">
+    <h2 class="problem-statement anim">Most African founders enter a new market on gut feel and network. When it fails, the capital spent cannot be recovered.</h2>
+    <div class="problem-points">
+      <div class="problem-point anim" data-delay="0">
+        <div class="pp-num">01</div>
+        <div>
+          <h3 class="pp-title">Soft data, hard consequences.</h3>
+          <p class="pp-body">Decisions based on conference conversations and one or two warm intros. Entry costs $200k&#x2013;$1M+ before you learn whether the model fits.</p>
+        </div>
+      </div>
+      <div class="problem-point anim" data-delay="80">
+        <div class="pp-num">02</div>
+        <div>
+          <h3 class="pp-title">Generic reports are not analysis.</h3>
+          <p class="pp-body">Country reports describe the market in aggregate. They do not model your unit economics under that market&#x2019;s specific regulatory and competitive conditions.</p>
+        </div>
+      </div>
+      <div class="problem-point anim" data-delay="160">
+        <div class="pp-num">03</div>
+        <div>
+          <h3 class="pp-title">The work nobody wants to do.</h3>
+          <p class="pp-body">Verifying the regulatory base, mapping competitive density, modelling first-year cash burn &#x2014; slow, unglamorous, decisive. We do that.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-thin" />
+
+<section class="packages section frame" id="packages">
+  <span class="eyebrow">2 Packages</span>
+  <h2 class="pkg-heading anim">Two scopes.<br>Both built for one decision.</h2>
+  <div class="pkg-grid">
+    <article class="pkg anim" data-delay="0">
+      <div class="pkg-top">
+        <span class="pkg-label">Market Snapshot</span>
+        <span class="pkg-roman">I</span>
+      </div>
+      <div class="pkg-price-row">
+        <span class="pkg-price">$750</span>
+        <span class="pkg-currency">USD</span>
+      </div>
+      <div class="pkg-delivery">Delivered in 48 hours</div>
+      <p class="pkg-desc">One candidate market assessed against your specific business model. Regulatory entry conditions, competitive landscape, risk factors, and a clear go / pause / avoid recommendation.</p>
+      <ul class="pkg-list">
+        <li><span class="li-n">01</span><span class="li-t">Regulatory entry conditions</span></li>
+        <li><span class="li-n">02</span><span class="li-t">Competitive landscape</span></li>
+        <li><span class="li-n">03</span><span class="li-t">Risk factors</span></li>
+        <li><span class="li-n">04</span><span class="li-t">Go / pause / avoid call</span></li>
+      </ul>
+      <a class="cta" href="https://buy.polar.sh/polar_cl_HsAPymPc70jMXKukPEJcNF97JLiaq8B4l4vde30vdIo">Get started</a>
+    </article>
+    <article class="pkg anim" data-delay="120">
+      <div class="pkg-top">
+        <span class="pkg-label">Full Selection Report</span>
+        <span class="pkg-roman">II</span>
+      </div>
+      <div class="pkg-price-row">
+        <span class="pkg-price">$1,500</span>
+        <span class="pkg-currency">USD</span>
+      </div>
+      <div class="pkg-delivery">Delivered in 5 business days</div>
+      <p class="pkg-desc">Three candidate markets compared and ranked. Risk-adjusted first-year economics, regulatory landscape per market, named risk register, and a clear ranked recommendation with reasoning.</p>
+      <ul class="pkg-list">
+        <li><span class="li-n">01</span><span class="li-t">3 markets compared and ranked</span></li>
+        <li><span class="li-n">02</span><span class="li-t">Risk-adjusted Y1 economics</span></li>
+        <li><span class="li-n">03</span><span class="li-t">Regulatory landscape per market</span></li>
+        <li><span class="li-n">04</span><span class="li-t">Named risk register</span></li>
+        <li><span class="li-n">05</span><span class="li-t">Ranked recommendation</span></li>
+      </ul>
+      <a class="cta" href="https://buy.polar.sh/polar_cl_Y2LUtbqaefb2hglZRZrFhRDjmY6fT9CTJVAvj1duAlL">Get started</a>
+    </article>
+  </div>
+  <div class="pkg-footer">
+    Not sure which package fits? Email us at <a href="mailto:hello@antlife.one">hello@antlife.one</a> and we will advise.
+  </div>
+</section>
+
+<section class="process section frame" id="process">
+  <span class="eyebrow anim">The Process</span>
+  <h2 class="anim" data-delay="80">Three steps. No meetings required.</h2>
+  <div class="process-grid">
+    <div class="step anim" data-delay="0">
+      <div class="step-n" data-count="1">01</div>
+      <h3 class="step-t">Brief us.</h3>
+      <p class="step-d">Tell us your business model, current market, and the markets you are considering.</p>
+    </div>
+    <div class="step anim" data-delay="0">
+      <div class="step-n" data-count="2">02</div>
+      <h3 class="step-t">We research.</h3>
+      <p class="step-d">We map structural entry conditions using verified public data. Every number is sourced and independently verifiable.</p>
+    </div>
+    <div class="step anim" data-delay="0">
+      <div class="step-n" data-count="3">03</div>
+      <h3 class="step-t">You decide.</h3>
+      <p class="step-d">You receive a ranked analysis before you commit capital. Built specifically for your business &#x2014; not a generic market report.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-thin" />
+
+<footer class="site-footer" id="contact">
+  <div class="footer-row">
+    <div class="f-brand">
+      <div class="wordmark">AntLife</div>
+      <div class="tagline">Market Entry Intelligence</div>
+    </div>
+    <div class="f-url"><a href="https://antlife.one">antlife.one</a></div>
+    <div class="f-email"><a href="mailto:hello@antlife.one">hello@antlife.one</a></div>
+  </div>
+  <div class="footer-disclaimer">
+    Every number is publicly sourced and independently verifiable. This is analytical scenario modelling, not financial advice.
+  </div>
+</footer>
+
+<script>
+  // ── Chart data ──────────────────────────────────────────────────────────────
+  const MARKETS = [
+    { code: 'NG', name: 'Nigeria',      rev: 920,  cac: 38, reg: 72, dem: 1820 },
+    { code: 'KE', name: 'Kenya',        rev: 740,  cac: 31, reg: 41, dem: 980  },
+    { code: 'ZA', name: 'South Africa', rev: 1180, cac: 64, reg: 38, dem: 1150 },
+    { code: 'EG', name: 'Egypt',        rev: 860,  cac: 29, reg: 66, dem: 1420 },
+    { code: 'GH', name: 'Ghana',        rev: 410,  cac: 22, reg: 35, dem: 520  },
+    { code: 'MA', name: 'Morocco',      rev: 580,  cac: 36, reg: 44, dem: 690  },
+  ];
+  const METRICS = {
+    rev: {
+      label: 'year-one revenue potential', shortLabel: 'Y1 revenue (USD)', better: 'high',
+      fmt: v => '$' + (v >= 1000 ? (v/1000).toFixed(2) + 'M' : v + 'k'),
+      axisFmt: v => '$' + (v >= 1000 ? (v/1000).toFixed(1) + 'M' : Math.round(v) + 'k'),
+      source: 'AntLife model · World Bank GDP per capita'
+    },
+    cac: {
+      label: 'customer acquisition cost', shortLabel: 'CAC (USD)', better: 'low',
+      fmt: v => '$' + v, axisFmt: v => '$' + Math.round(v),
+      source: 'AntLife model · GSMA ad CPM data'
+    },
+    reg: {
+      label: 'regulatory friction', shortLabel: 'Reg. friction', better: 'low',
+      fmt: v => v + ' / 100', axisFmt: v => Math.round(v),
+      source: 'AntLife model · World Bank Doing Business'
+    },
+    dem: {
+      label: 'addressable demand', shortLabel: 'Demand (k)', better: 'high',
+      fmt: v => v.toLocaleString() + 'k', axisFmt: v => Math.round(v) + 'k',
+      source: 'AntLife model · GSMA · national statistics'
+    },
+  };
+
+  const barsEl   = document.getElementById('chartBars');
+  const axisEl   = document.getElementById('chartAxis');
+  const xaxisEl  = document.getElementById('chartXAxis');
+  const rankBody = document.getElementById('rankBody');
+
+  // Build static DOM for bars and x-axis
+  MARKETS.forEach(m => {
+    const col = document.createElement('div');
+    col.className = 'bar-col';
+    col.dataset.code = m.code;
+    col.innerHTML =
+      '<div class="bar-tooltip">' +
+        '<span class="tt-name">' + m.name + '</span>' +
+        '<span class="tt-val"></span>' +
+        '<span class="tt-source"></span>' +
+      '</div>' +
+      '<div class="bar"></div>';
+    barsEl.appendChild(col);
+
+    const xcol = document.createElement('div');
+    xcol.className = 'xcol';
+    xcol.innerHTML = '<span class="xname">' + m.name + '</span><span class="xval"></span>';
+    xaxisEl.appendChild(xcol);
+  });
+
+  function renderAxis(maxVal, metric) {
+    axisEl.innerHTML = '';
+    barsEl.querySelectorAll('.gridline').forEach(el => el.remove());
+    [0, 0.25, 0.5, 0.75, 1].forEach(t => {
+      const lab = document.createElement('div');
+      lab.className = 'chart-axis-label';
+      lab.style.bottom = (t * 100) + '%';
+      lab.textContent = metric.axisFmt(t * maxVal);
+      axisEl.appendChild(lab);
+      if (t > 0) {
+        const line = document.createElement('div');
+        line.className = 'gridline';
+        Object.assign(line.style, {
+          position: 'absolute', left: '0', right: '0',
+          borderTop: '1px dashed #e0e0e0', pointerEvents: 'none',
+          bottom: (t * 100) + '%'
+        });
+        barsEl.appendChild(line);
+      }
+    });
+  }
+
+  function findLeader(key) {
+    const m = METRICS[key];
+    return MARKETS.reduce((best, cur) => {
+      if (!best) return cur;
+      return m.better === 'high' ? (cur[key] > best[key] ? cur : best) : (cur[key] < best[key] ? cur : best);
+    }, null);
+  }
+
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  function render(key) {
+    const metric = METRICS[key];
+    const maxVal = Math.max(...MARKETS.map(m => m[key]));
+    const leader = findLeader(key);
+    renderAxis(maxVal, metric);
+
+    MARKETS.forEach(m => {
+      const col = barsEl.querySelector('.bar-col[data-code="' + m.code + '"]');
+      const bar = col.querySelector('.bar');
+      const tt  = col.querySelector('.bar-tooltip');
+      bar.style.height = Math.max(2, (m[key] / maxVal) * 100) + '%';
+      bar.classList.toggle('leading', m.code === leader.code);
+      tt.querySelector('.tt-val').innerHTML = cap(metric.label) + ': <strong>' + metric.fmt(m[key]) + '</strong>';
+      tt.querySelector('.tt-source').textContent = 'Source: ' + metric.source;
+    });
+
+    xaxisEl.querySelectorAll('.xcol').forEach((xcol, i) => {
+      xcol.querySelector('.xval').textContent = metric.fmt(MARKETS[i][key]);
+    });
+
+    // Ranked panel with row stagger
+    const ranked = [...MARKETS].sort((a, b) =>
+      metric.better === 'high' ? b[key] - a[key] : a[key] - b[key]
+    );
+    rankBody.innerHTML = '';
+    ranked.forEach((m, i) => {
+      const tr = document.createElement('tr');
+      if (i === 0) tr.className = 'leading';
+      tr.style.opacity = '0';
+      tr.style.transition = 'opacity 600ms cubic-bezier(0.4,0,0.2,1)';
+      tr.innerHTML =
+        '<td class="rank">' + String(i + 1).padStart(2, '0') + '</td>' +
+        '<td class="name">' + m.name + '</td>' +
+        '<td class="num">'  + metric.fmt(m[key]) + '</td>';
+      rankBody.appendChild(tr);
+      setTimeout(() => { tr.style.opacity = '1'; }, i * 60);
+    });
+
+    document.getElementById('rsMetricLabel').textContent = metric.label;
+    document.getElementById('rsHeadVal').textContent = metric.shortLabel;
+    document.getElementById('readingMarket').textContent = leader.name;
+    document.getElementById('readingMetric').textContent = metric.label;
+
+    document.querySelectorAll('.tab').forEach(t =>
+      t.classList.toggle('active', t.dataset.metric === key)
+    );
+  }
+
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => render(t.dataset.metric)));
+
+  // Trigger chart when section enters viewport (bars animate height on first render)
+  let chartReady = false;
+  const chartIO = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !chartReady) {
+        chartReady = true;
+        setTimeout(() => render('rev'), 80);
+        chartIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  chartIO.observe(document.getElementById('methodology'));
+
+  // ── Hamburger ───────────────────────────────────────────────────────────────
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+  hamburger.addEventListener('click', () => {
+    const opening = !mobileMenu.classList.contains('open');
+    hamburger.classList.toggle('open', opening);
+    mobileMenu.classList.toggle('open', opening);
+    hamburger.setAttribute('aria-expanded', opening ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  window.addEventListener('resize', () => { if (window.innerWidth > 768) closeMenu(); });
+
+  // ── Scroll animations ───────────────────────────────────────────────────────
+  const scrollIO = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        entry.target.dataset.animated = '1';
+        const delay = parseInt(entry.target.dataset.delay || '0');
+        setTimeout(() => entry.target.classList.add('visible'), delay);
+        scrollIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+  // Hero headline: DOMContentLoaded, 200ms, not scroll-triggered
+  const heroH = document.querySelector('.hero-headline');
+  heroH.dataset.animated = '1';
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => heroH.classList.add('visible'), 200);
+  });
+
+  document.querySelectorAll('.anim').forEach(el => {
+    if (!el.dataset.animated) scrollIO.observe(el);
+  });
+
+  // ── Process numerals count-up ───────────────────────────────────────────────
+  function countUp(el) {
+    const target = parseInt(el.dataset.count, 10);
+    const duration = 800;
+    const t0 = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - t0) / duration, 1);
+      el.textContent = String(Math.floor(p * target)).padStart(2, '0');
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+
+  const countIO = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.counted) {
+        entry.target.dataset.counted = '1';
+        entry.target.querySelectorAll('.step-n[data-count]').forEach(countUp);
+        countIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+  document.querySelectorAll('.process-grid').forEach(el => countIO.observe(el));
+</script>
+</body>
+</html>
