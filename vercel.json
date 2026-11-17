@@ -1,6 +1,52 @@
 {
   "rewrites": [
-    { "source": "/success", "destination": "/success.html" },
-    { "source": "/start", "destination": "/start.html" }
+    {
+      "source": "/services",
+      "destination": "/services.html"
+    },
+    {
+      "source": "/approach",
+      "destination": "/approach.html"
+    },
+    {
+      "source": "/work",
+      "destination": "/work.html"
+    },
+    {
+      "source": "/work/mitumba-to-yarn",
+      "destination": "/mitumba.html"
+    },
+    {
+      "source": "/work/expansion-economics",
+      "destination": "/expansion.html"
+    },
+    {
+      "source": "/insights",
+      "destination": "/insights.html"
+    },
+    {
+      "source": "/insights/growth-and-economics",
+      "destination": "/observation.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/about.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/start",
+      "destination": "/start.html"
+    },
+    {
+      "source": "/success",
+      "destination": "/success.html"
+    }
   ]
 }
