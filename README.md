@@ -1,6 +1,6 @@
 # Antlife public website
 
-Conversation-led public site for **Antlife — Investment Intelligence**. Variation 1 is maintained on `redesign/antlife-public-site`. The owner authorised committing and pushing this version to GitHub on 17 November 2026. No hosted preview or production deployment has been performed by the agent.
+Conversation-led public site for **Antlife — Investment Intelligence**. Variation 1 is maintained on `redesign/antlife-public-site` at commit `2100194`. Variant 2, the Investment Journal, is maintained on `redesign/variant-2-investment-journal`. The owner authorised committing and pushing both variants to GitHub on 17 November 2026. No hosted preview or production deployment has been performed by the agent.
 
 ## Run locally
 
@@ -17,6 +17,8 @@ The server reads the route rewrites from `vercel.json`. It deliberately returns 
 
 - Root HTML: Home, Services, Approach, Work, two case pages, Insights, one editorial observation, About, Contact and draft privacy information.
 - `assets/site.css`, `assets/site.js`: shared brand styling, responsive navigation and interactions.
+- `assets/journal.css`, `assets/journal.js`: Variant 2 editorial treatment, six illustrative service demonstrations, chapter navigation and bounded pixel animations.
+- `assets/nairobi-editorial.webp`: generated Nairobi-inspired architectural illustration, not documentary photography; its provenance is recorded in `assets/IMAGE_PROVENANCE.md`.
 - `assets/brand`: supplied outlined logo masters and favicon; do not redraw or distort them.
 - `assets/fonts`: supplied brand fonts and SIL Open Font Licences.
 - `assets/evidence-landscape.svg`: original decorative pixel landscape; it is not quantitative data.
@@ -33,9 +35,12 @@ node --check api/contact.js
 node --test tests/contact.test.js
 # With the preview server running; Python Playwright and Chromium are provided in this environment:
 python3 tests/browser_smoke.py
+ANTLIFE_TEST_URL=http://127.0.0.1:4173 python3 tests/journal_smoke.py
 ```
 
-The browser suite covers routes at 360, 390, 768, 1024 and 1440px, local links, navigation, keyboard tabs, data views, calculator, filters, form failures and intercepted success, reduced motion, and no-JavaScript navigation. API tests mock the provider; they do not send email.
+The journal suite checks all six service views and alternate scenarios, keyboard selection, hash links, image loading, reduced motion and scroll chapter state. All inputs in the service lab are fictional and distinct from historical case evidence.
+
+The shared browser suite covers routes at 360, 390, 768, 1024 and 1440px, local links, navigation, keyboard tabs, data views, calculator, filters, form failures and intercepted success, reduced motion, and no-JavaScript navigation. API tests mock the provider; they do not send email.
 
 ## Email configuration (later, before activation)
 

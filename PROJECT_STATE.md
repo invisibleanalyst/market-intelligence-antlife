@@ -1,6 +1,6 @@
 # Antlife public website — project state
 
-Updated 17 November 2026. Phase 1 only. Source baseline: `b4604b93faa57af4f2802c74e90b821645686318`. Working branch: `redesign/antlife-public-site`.
+Updated 17 November 2026. Phase 1 only. Source baseline: `b4604b93faa57af4f2802c74e90b821645686318`. Variant 1 branch: `redesign/antlife-public-site` (pushed at `2100194`). Current working branch: `redesign/variant-2-investment-journal`.
 
 ## Approved direction
 
@@ -19,6 +19,19 @@ Updated 17 November 2026. Phase 1 only. Source baseline: `b4604b93faa57af4f2802c
 Shared responsive site, mobile menu with Escape/focus restoration, Mitumba keyboard-operable decision tabs, historical expansion chart toggle, separate fictional unit-economics calculator, Insights filters and an editorial observation, validated contact UI and fail-closed Resend handler. Legacy `/start` and `/success` no longer assert that a payment occurred.
 
 Supplied logo masters and licensed fonts have been copied into assets. Brand package is an external reference, not an executable setup script. No source scripts from that package were executed.
+
+## Variant 2 — Investment Journal
+
+The owner requested an editorial consultancy experience, inspired by the supplied reference hero and AI-2027's narrative/visual combination. This branch preserves Variant 1 in Git and adds:
+
+- Framed, image-led Nairobi-inspired hero with a green overlay, master logo and self-hosted brand typography.
+- Original generated architectural illustration; clearly captioned, not documentary imagery. Real image-source and AI-2027 access attempts remained proxy-blocked.
+- Six service demonstrations on Home and Services: entry economics, feasibility break-even, diligence evidence status, sector margin structure, strategy sensitivity, and a fictional capital-intelligence trend. Two scenarios per service; accessible descriptions and detailed assumptions. These are invented method illustrations, not researched findings, client results or current market data.
+- Pixel compositions in the approach and Insights sections. Automatic animation lasts under four seconds, can be replayed, and is disabled for reduced motion.
+- A sticky chapter navigation rail with scrolling state on the two case pages; historical evidence distinctions remain intact.
+- More compact editorial selected-work and Insights presentation. No fabricated firm metrics, testimonials or client logos.
+
+The owner authorised committing and pushing Variant 2 to `redesign/variant-2-investment-journal` on 17 November 2026. Preserve Variant 1 and `main`. The same Vercel project can host separate branch previews. No hosted preview or production deployment has been performed by the agent.
 
 ## Evidence treatment
 
