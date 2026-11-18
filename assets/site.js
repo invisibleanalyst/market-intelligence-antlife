@@ -133,3 +133,26 @@ if (form) {
     }
   });
 }
+
+// Observe each element once. Its default presentation is always readable.
+(() => {
+  if (!('IntersectionObserver' in window)) return;
+  const roles = {
+    heading: 'main h2',
+    photo: '.case-picture, .editorial-plate',
+    chart: '.entry-figure, .loss-chart, .lens-graph, .stage-diagram'
+  };
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.classList.add('in-view');
+      observer.unobserve(entry.target);
+    }
+  }, {threshold: 0.1});
+  for (const [role, selector] of Object.entries(roles)) {
+    document.querySelectorAll(selector).forEach(element => {
+      element.dataset.reveal = role;
+      observer.observe(element);
+    });
+  }
+})();

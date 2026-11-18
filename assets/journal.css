@@ -324,19 +324,6 @@
   letter-spacing: normal;
 }
 .journal-v2 .site-header nav { font-size: 15px; }
-@media (prefers-reduced-motion:no-preference) {
-  .story-enter { animation: forest-settle .62s cubic-bezier(.18,.8,.25,1) both; }
-  .method-foot.story-enter { animation: none; }
-  .method-foot.story-enter > span { animation: forest-settle .65s cubic-bezier(.18,.8,.25,1) both; }
-  .method-foot.story-enter > span:nth-child(2) { animation-delay: 80ms; }
-  .method-foot.story-enter > span:nth-child(3) { animation-delay: 160ms; }
-  .method-foot.story-enter > span:nth-child(4) { animation-delay: 240ms; }
-  @keyframes forest-settle {
-    from { opacity: .55; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-}
-
 /* Action labels use the same regular mono face across editorial and analytical pages. */
 .journal-v2 :is(button, .button, .text-link, .quiet-link, .back-link, .article-read,
                 .lens-bottom a, .chapter-nav a, details summary) {

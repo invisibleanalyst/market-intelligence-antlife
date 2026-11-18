@@ -56,7 +56,39 @@ body .editorial-plate img,body .case-picture img { display:block; width:100%; ob
 @media(prefers-reduced-motion:no-preference) {
   .home-case .case-picture img,.work-card .editorial-plate img { transition:transform var(--final-motion-time) var(--final-motion-ease); }
   .work-card:is(:hover,:focus-visible) .editorial-plate img { transform:scale(1.025); }
-  .story-enter,.method-foot.story-enter>span { animation-duration:var(--final-motion-time); animation-timing-function:var(--final-motion-ease); }
+  [data-reveal].in-view {
+    animation-duration: var(--final-motion-time);
+    animation-timing-function: var(--final-motion-ease);
+  }
+  [data-reveal="heading"].in-view { animation-name: heading-rise; }
+  [data-reveal="photo"].in-view { animation: photo-uncover 580ms var(--final-motion-ease); }
+  [data-reveal="chart"].in-view { animation: chart-sweep 680ms var(--final-motion-ease); }
+  @keyframes heading-rise {
+    from { opacity: .55; translate: 0 .35em; }
+    to { opacity: 1; translate: 0 0; }
+  }
+  @keyframes photo-uncover {
+    from { clip-path: inset(8% 0 8% 0); opacity: .78; }
+    to { clip-path: inset(0); opacity: 1; }
+  }
+  @keyframes chart-sweep {
+    from { clip-path: inset(-12px 100% -12px -12px); }
+    to { clip-path: inset(-12px); }
+  }
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  :is(button, .button, .nav-cta, .solid-action, .quiet-action, .rule-action, .interior-link, .entry-contact) {
+    transition: box-shadow 180ms ease-out, background-color 180ms ease-out, color 180ms ease-out;
+  }
+  :is(button:enabled, .button:not(:disabled), .nav-cta, .solid-action, .quiet-action, .rule-action, .interior-link, .entry-contact):hover {
+    box-shadow: inset 0 -2px currentColor;
+  }
+  :is(.button, .nav-cta, .solid-action, .quiet-action, .rule-action, .interior-link, .entry-contact) > :is(.arrow-icon, span[aria-hidden="true"]) {
+    transition: translate 180ms var(--final-motion-ease);
+  }
+  :is(.button:enabled, a.button, .nav-cta, .solid-action, .quiet-action, .rule-action, .interior-link, .entry-contact):hover > :is(.arrow-icon, span[aria-hidden="true"]) {
+    translate: 2px -1px;
+  }
 }
 @media(prefers-reduced-motion:reduce) {
   .home-case:hover img,.work-card:hover img { transform:none; }
