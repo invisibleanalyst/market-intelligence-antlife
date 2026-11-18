@@ -1,4 +1,4 @@
-"""Variant 2 service demonstrations, motion and chapter navigation."""
+"""Field Journal reading modes, service demonstrations and chapter navigation."""
 import asyncio
 import os
 from playwright.async_api import async_playwright, expect
@@ -12,9 +12,22 @@ async def main():
    errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
    await page.goto(BASE,wait_until='networkidle')
    assert await page.locator('.city-image').evaluate('(img)=>img.complete&&img.naturalWidth>1000')
-   assert await page.locator('.lens-tab').count()==6
    hero = await page.locator('.city-hero').bounding_box()
    assert hero['x'] == 0 and hero['width'] == width and hero['height'] >= 960
+   assert await page.locator('.fj-step').count() == 3
+   await page.locator('.fj-cover-image img').scroll_into_view_if_needed()
+   assert await page.locator('.fj-cover-image img').evaluate('(img)=>img.complete && img.naturalWidth===1500')
+   if width > 800:
+    for slug,caption in [('supply','Mixed fibres'),('process','Sorted strands'),('pilot','Trial yarn')]:
+     await page.locator('#thread-'+slug).evaluate("(el)=>el.scrollIntoView({behavior:'instant',block:'center'})")
+     await expect(page.locator('.fj-plate figcaption')).to_have_text(caption)
+   else:
+    await expect(page.locator('.fj-inline:visible')).to_have_count(3)
+   await page.emulate_media(reduced_motion='reduce')
+   await expect(page.locator('.fj-inline:visible')).to_have_count(3)
+   await page.emulate_media(reduced_motion='no-preference')
+   await page.goto(BASE+'/services',wait_until='networkidle')
+   assert await page.locator('.lens-tab').count()==6
    for sid,option,expected in cases:
     await page.locator(f'[data-lens="{sid}"]').click()
     assert await page.locator(f'[data-lens="{sid}"]').get_attribute('aria-selected')=='true'

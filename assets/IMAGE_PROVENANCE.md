@@ -7,3 +7,5 @@ The original generated PNG is retained in the session's `/workspace/generated_im
 Remote image-source requests were blocked by the environment proxy. No unlicensed third-party photograph was substituted. Replace this with appropriately licensed photography later if the owner prefers a documentary skyline.
 
 The port, mill, studio and tower WebP images are original AI-generated editorial artwork created for this revision. They depict imagined settings. No image identifies a client, its premises or a project site.
+
+Variant 4’s thread-study.webp is an original AI-generated editorial still life of yarn and fabric. It illustrates the research question and does not depict a client's material or premises.
