@@ -12,9 +12,27 @@ async def main():
    errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
    await page.goto(BASE,wait_until='networkidle')
    assert await page.locator('.city-image').evaluate('(img)=>img.complete&&img.naturalWidth>1000')
-   assert await page.locator('.lens-tab').count()==6
    hero = await page.locator('.city-hero').bounding_box()
    assert hero['x'] == 0 and hero['width'] == width and hero['height'] >= 960
+   room = page.locator('.decision-room')
+   for label,slug,result,figure in [
+       ('Enter a market','market-entry','Move the pilot to Market A.','$12k'),
+       ('Test an investment','feasibility','Test the margin first.','650'),
+       ('Review a plan','strategy','Rephase $5k of spending.','$90k')]:
+    await room.get_by_role('button', name=label, exact=True).click()
+    panel = room.locator('#decision-'+slug)
+    assert await room.locator('.dr-panel:visible').count() == 1
+    original = await panel.locator('h4').inner_text()
+    await panel.locator('.dr-switch button').last.click()
+    await expect(panel.locator('h4')).to_have_text(result)
+    await expect(panel.locator('.dr-measure strong').first).to_have_text(figure)
+    assert await panel.locator('.dr-interpretation a').get_attribute('href') == '/contact?service='+slug
+    await panel.locator('summary').click()
+    assert await panel.locator('details').get_attribute('open') is not None
+    await panel.locator('.dr-switch button').first.click()
+    await expect(panel.locator('h4')).to_have_text(original)
+   await page.goto(BASE+'/services',wait_until='networkidle')
+   assert await page.locator('.lens-tab').count()==6
    for sid,option,expected in cases:
     await page.locator(f'[data-lens="{sid}"]').click()
     assert await page.locator(f'[data-lens="{sid}"]').get_attribute('aria-selected')=='true'

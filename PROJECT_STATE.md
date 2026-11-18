@@ -62,3 +62,7 @@ Local revision based on `6ab5a30`. The hero is full bleed. Reading surfaces use 
 ## Forest editorial edition of Variant 2
 
 Local branch `redesign/variant-2-forest-editorial` begins at `b14d58e`. The original image hero, supporting imagery, case text and service interactions are retained. White bands hold introductions and long-form reading, forest green frames the editorial sections, and black anchors the dashboard and enquiry page. Sentence-case DM Mono and selective scroll entrances draw on the light edition.
+
+## Variant 3 — Decision Room
+
+Branch `redesign/variant-3-decision-room` starts at `f541634`. The header and image hero are carried over verbatim. Below the hero, three client questions open example comparisons with scenario-specific implications, assumptions, related reading and service-specific enquiry links. All three base cases remain readable without JavaScript. The full six-service laboratory remains on Services.

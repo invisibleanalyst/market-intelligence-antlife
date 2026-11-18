@@ -1,0 +1,55 @@
+.decision-room { background: var(--white); color: var(--ink); padding-block: clamp(52px,7vw,108px); scroll-margin-top: 0; }
+.dr-intro { display:flex; align-items:end; justify-content:space-between; gap:32px; margin-bottom:36px; }
+.dr-intro h2,.dr-close h2 { font:300 clamp(42px,5vw,76px)/1.05 Outfit,Figtree,sans-serif; letter-spacing:-.045em; margin:0; }
+.dr-intro p { max-width:33ch; margin:0; color:var(--muted-on-white); }
+.dr-choices,.dr-switch { display:none; }
+.interactive .dr-choices,.interactive .dr-switch { display:flex; }
+.dr-choices { border-block:1px solid var(--rule-on-white); margin-bottom:24px; }
+.dr-choices button { padding:18px 16px; flex:1; text-align:left; color:var(--muted-on-white); font-size:clamp(14px,1.2vw,18px); }
+.dr-choices button[aria-pressed=true] { color:var(--green); box-shadow:inset 0 -3px var(--green); background:#f1f5f0; }
+.dr-choices button:focus-visible,.dr-switch button:focus-visible { outline-offset:-5px; }
+.dr-spread { display:grid; grid-template-columns:1.3fr 1fr; background:var(--green); color:var(--ivory); }
+.dr-chart,.dr-interpretation { padding:clamp(26px,3.6vw,58px); }
+.dr-chart h3,.dr-case h3,.dr-interpretation h4 { font:300 clamp(30px,3.1vw,50px)/1.1 Outfit,Figtree,sans-serif; letter-spacing:-.035em; margin:0 0 14px; }
+.dr-kicker,.dr-plot>p { font:400 14px/1.5 var(--mono); }
+.dr-kicker { margin:0 0 24px; }
+.dr-description { color:#dae5db; font-size:18px; }
+.dr-switch { gap:3px; border:1px solid #a9c2b680; padding:3px; width:fit-content; margin:24px 0; }
+.dr-switch button { min-height:44px; padding:8px 14px; font-size:14px; }
+.dr-switch button[aria-pressed=true] { background:var(--ivory); color:var(--green); }
+.dr-plot { margin-top:24px; }
+.dr-measure { margin:16px 0; }
+.dr-measure>div:first-child { display:flex; justify-content:space-between; align-items:baseline; font-size:18px; }
+.dr-measure strong { font:400 clamp(22px,2vw,32px) var(--mono); }
+.dr-track { height:12px; background:#ffffff16; margin-top:5px; }
+.dr-track i { display:block; height:100%; background:var(--sage-light); transition:width .45s ease; }
+.dr-measure:first-child .dr-track i { background:var(--ivory); }
+.dr-plot>p { color:#c4d6c9; margin:12px 0 0; }
+.dr-interpretation { background:var(--black); display:flex; flex-direction:column; }
+.dr-interpretation h4 { max-width:17ch; }
+.dr-finding { color:#d1dbd3; max-width:38ch; }
+.dr-interpretation details { border-block:1px solid var(--stone); margin:12px 0 26px; }
+.dr-interpretation summary { padding:12px 0; font-size:15px; cursor:pointer; }
+.dr-interpretation details p { font-size:16px; }
+.dr-interpretation a,.dr-case a { display:inline-flex; width:fit-content; align-items:center; gap:20px; min-height:44px; font:400 15px var(--mono); border-bottom:1px solid currentColor; }
+.dr-interpretation a { margin-top:auto; }
+.dr-case { margin-top:clamp(36px,6vw,88px); display:grid; grid-template-columns:1fr 1.2fr; align-items:center; gap:clamp(22px,5vw,80px); }
+.dr-case img { width:100%; aspect-ratio:2/1; object-fit:cover; }
+.dr-case .dr-kicker { margin-bottom:12px; color:var(--muted-on-white); }
+.dr-case h3 { color:var(--green); }
+.dr-case div>p:not(.dr-kicker) { max-width:52ch; }
+.dr-close { background:var(--green); padding-block:clamp(52px,7vw,96px); }
+.dr-close>.container { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:40px; }
+.dr-close p { max-width:36ch; }
+@media(max-width:760px) {
+  .dr-intro,.dr-spread,.dr-case,.dr-close>.container { display:grid; grid-template-columns:1fr; }
+  .dr-intro { gap:15px; margin-bottom:24px; }
+  .dr-choices button { padding:12px 8px; }
+  .dr-interpretation a { margin-top:0; }
+  .dr-case { gap:20px; }
+  .dr-close>.container { gap:20px; }
+}
+@media(prefers-reduced-motion:reduce) { .dr-track i { transition:none; } }
+.journal-home .skip-link:not(:focus) { clip-path: inset(50%); }
+.dr-plot { font-variant-numeric: tabular-nums; }
+.dr-track { background-image: repeating-linear-gradient(to right, transparent 0 calc(25% - 1px), #ffffff35 calc(25% - 1px) 25%); }
