@@ -69,15 +69,15 @@
       const ring = entry.type === 'stack';
       const series = {
         type: ring ? 'doughnut' : line ? 'line' : 'bar', label: entry.options[mode], data: values,
-        backgroundColor: ring ? ['#d1e0d3', '#769680', '#40594a'] : line ? 'rgba(111,150,132,.2)' : '#a9c2b6',
-        borderColor: '#c9dacc', borderWidth: line ? 3 : 0, borderRadius: 4,
+        backgroundColor: ring ? ['#173c28', '#769680', '#40594a'] : line ? 'rgba(111,150,132,.2)' : '#28603f',
+        borderColor: '#245338', borderWidth: line ? 3 : 0, borderRadius: 4,
         pointRadius: 4, pointHoverRadius: 7, fill: line, tension: .18, maxBarThickness: 42
       };
       chart.config.type = series.type;
       chart.data.labels = entry.labels;
       const comparison = {
         ...series, label: entry.options[1-mode], data: entry.values[1-mode],
-        borderColor: '#8a9e90', backgroundColor: '#465b4d', borderDash: [4,4],
+        borderColor: '#8a9e90', backgroundColor: '#a3b8a9', borderDash: [4,4],
         pointRadius: 2, fill: false
       };
       chart.data.datasets = ring ? [series] : [series, comparison];
@@ -86,12 +86,12 @@
         animation: matchMedia('(prefers-reduced-motion: reduce)').matches ? false : {duration: 450},
         interaction: {mode: 'index', intersect: false},
         plugins: {legend: {display: true, position: 'bottom', onClick: () => {},
-            labels: {color: '#d7e1d9', usePointStyle: true, boxHeight: 8, font: {size: 13}}},
+            labels: {color: '#263e2e', usePointStyle: true, boxHeight: 8, font: {size: 13}}},
             tooltip: {displayColors: true}},
         scales: ring ? {} : {
-          x: {grid: {display: false}, ticks: {color: '#e5eee6', font: {size: 13}}},
+          x: {grid: {display: false}, ticks: {color: '#263e2e', font: {size: 13}}},
           y: {min: line ? entry.min : undefined, max: entry.max, beginAtZero: true,
-              grid: {color: '#ffffff20'}, ticks: {color: '#c8d5ca', precision: 0}}
+              grid: {color: '#c9d6cb'}, ticks: {color: '#405447', precision: 0}}
         }
       };
       chart.update();
@@ -138,25 +138,7 @@
     render();
   }
 
-  // Decorative animation resolves to a still pattern in under four seconds.
-  const motion=matchMedia('(prefers-reduced-motion: reduce)');
-  const fields=[...document.querySelectorAll('.pixel-field')];
-  function play(field){
-    field.classList.remove('is-playing');
-    if(motion.matches)return;
-    void field.offsetWidth;
-    field.classList.add('is-playing');
-  }
-  const observer=new IntersectionObserver(entries=>{
-    for(const entry of entries)if(entry.isIntersecting){play(entry.target);observer.unobserve(entry.target);}
-  },{threshold:.2});
-  fields.forEach(field=>observer.observe(field));
-  document.querySelectorAll('.replay-pixels').forEach(button=>button.addEventListener('click',()=>play(button.closest('.pixel-composition').querySelector('.pixel-field'))));
-  function updateMotion(){
-    fields.forEach(field=>{if(motion.matches)field.classList.remove('is-playing');});
-    document.querySelectorAll('.replay-pixels').forEach(button=>{button.disabled=motion.matches;button.textContent=motion.matches?'Reduced motion on':'Replay pattern';});
-  }
-  motion.addEventListener('change',updateMotion);updateMotion();
+
 })();
 
 // A quiet chapter rail keeps the argument legible as the reader moves through a case.

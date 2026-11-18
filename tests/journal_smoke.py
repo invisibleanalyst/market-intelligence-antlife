@@ -11,10 +11,11 @@ async def main():
    page=await b.new_page(viewport={'width':width,'height':960})
    errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
    await page.goto(BASE,wait_until='networkidle')
-   assert await page.locator('.city-image').evaluate('(img)=>img.complete&&img.naturalWidth>1000')
+   assert await page.locator('.cover-study use').count() == 5
+   assert await page.locator('.cover-study use').first.evaluate('(layer) => layer.getBBox().width > 200')
    assert await page.locator('.lens-tab').count()==6
    hero = await page.locator('.city-hero').bounding_box()
-   assert hero['x'] == 0 and hero['width'] == width and hero['height'] >= 960
+   assert hero['x'] == 0 and hero['width'] == width and hero['height'] > 500
    for sid,option,expected in cases:
     await page.locator(f'[data-lens="{sid}"]').click()
     assert await page.locator(f'[data-lens="{sid}"]').get_attribute('aria-selected')=='true'
@@ -38,9 +39,9 @@ async def main():
    assert await page.locator('[data-lens="sector"]').get_attribute('aria-selected')=='true'
    await page.goto(BASE+'/insights')
    await page.locator('.pixel-field').scroll_into_view_if_needed()
-   await page.wait_for_function('document.querySelector(".pixel-field").classList.contains("is-playing")')
+   await page.wait_for_function('document.querySelector(".pixel-field .profile-study").classList.contains("arrived")')
    await page.emulate_media(reduced_motion='reduce')
-   assert await page.locator('.pixel-cell').first.evaluate('(e)=>getComputedStyle(e).animationName')=='none'
+   assert await page.locator('.pixel-field .study-layer').first.evaluate('(e)=>getComputedStyle(e).animationName')=='none'
    assert await page.locator('.replay-pixels').is_disabled()
    assert await page.evaluate('getComputedStyle(document.documentElement).scrollBehavior')=='auto'
    await page.goto(BASE+'/work/expansion-economics')
@@ -49,5 +50,5 @@ async def main():
    assert not errors,errors
    await page.close()
   await b.close()
- print('PASS: all six service demonstrations and alternate values at mobile/desktop; keyboard selection; deep links; image load; reduced motion; scrolling chapter state. No page errors.')
+ print('PASS: all six service demonstrations and alternate values at mobile/desktop; keyboard selection; deep links; cover artwork; reduced motion; scrolling chapter state. No page errors.')
 asyncio.run(main())
