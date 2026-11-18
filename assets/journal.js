@@ -7,37 +7,49 @@
     const scenarios = [...host.querySelectorAll('[data-lens-scenario]')];
     const entries = [
       {
-        id: 'market-entry', title: 'Size is only the start.', unit: 'Year-one contribution after entry costs · USD thousands', output: 'Market assessment', type: 'bars', labels: ['Market A', 'Market B', 'Market C'], values: [[24,41,13],[12,9,-7]], max: 50,
+        id: 'market-entry',
+        startingPoint: "Three markets compete for the same launch budget.", analysis: "Compare entry costs and first-year contribution.", decisions: ["Prioritise Market B for customer interviews.", "Shift the pilot budget to Market A."],
+        title: 'Size is only the start.', unit: 'Year-one contribution after entry costs · USD thousands', output: 'Market assessment', type: 'bars', labels: ['Market A', 'Market B', 'Market C'], values: [[24,41,13],[12,9,-7]], max: 50,
         options: ['Base case', 'Higher entry costs'],
         findings: ['The strongest base-case entry economics belong to Market B. An addressable market is only one part of the decision.', 'Higher entry costs change the ranking: Market A now leads, and Market C is negative. A recommendation depends on the entry assumptions.'],
         assumptions: 'Fictional annual markets, not country forecasts. Base contribution after operating costs: A 44, B 61, C 33 (USD thousands). Base entry cost is 20 each; alternate entry costs are A 32, B 52, C 40. Net contribution = contribution after operations minus entry cost.'
       },
       {
-        id: 'feasibility', title: 'Find the point that makes it work.', unit: 'Contribution after fixed costs · USD thousands · at 0, 250, 500, 750 and 1,000 units', output: 'Commercial feasibility review', type: 'line', labels: ['0','250','500','750','1,000'], values: [[-12,-6,0,6,12],[-12,-8,-4,0,4]], min: -12, max: 12,
+        id: 'feasibility',
+        startingPoint: "A proposed launch needs a sales target.", analysis: "Test unit margin against fixed costs.", decisions: ["Set a 500-unit threshold for launch.", "Validate demand for 750 units before launch."],
+        title: 'Find the point that makes it work.', unit: 'Contribution after fixed costs · USD thousands · at 0, 250, 500, 750 and 1,000 units', output: 'Commercial feasibility review', type: 'line', labels: ['0','250','500','750','1,000'], values: [[-12,-6,0,6,12],[-12,-8,-4,0,4]], min: -12, max: 12,
         options: ['Base margin', 'Lower margin'],
         findings: ['At $24 contribution per unit and $12,000 fixed cost, the model breaks even at 500 units. The next question is whether that volume is reachable.', 'At $16 contribution per unit, break-even moves to 750 units. A small-looking change in unit economics can materially change the required demand.'],
         assumptions: 'Fictional one-period operating model. Fixed cost: USD 12,000. Contribution per unit: USD 24 base, USD 16 lower margin. Result = volume × unit contribution − fixed cost. Excludes tax, financing, working capital and capital expenditure.'
       },
       {
-        id: 'diligence', title: 'A claim is a starting point.', unit: 'Ten fictional commercial claims · number by evidence status', output: 'Commercial diligence memo', type: 'stack', labels: ['Supported','Unresolved','Contradicted'], values: [[4,5,1],[6,2,2]], max: 10,
+        id: 'diligence',
+        startingPoint: "Ten claims underpin an investment proposal.", analysis: "Match each claim to commercial evidence.", decisions: ["Assign owners to the five open questions.", "Focus follow-up on two open claims and revisit the two challenged claims."],
+        title: 'A claim is a starting point.', unit: 'Ten fictional commercial claims · number by evidence status', output: 'Commercial diligence memo', type: 'stack', labels: ['Supported','Unresolved','Contradicted'], values: [[4,5,1],[6,2,2]], max: 10,
         options: ['Initial review', 'More evidence'],
         findings: ['Four claims have support; five remain unresolved and one is contradicted. The memo should explain the gaps rather than turn them into an arbitrary confidence score.', 'More evidence resolves some questions—and contradicts another claim. Progress in diligence is a clearer view, not necessarily a more positive one.'],
         assumptions: 'Invented evidence statuses across ten equally counted claims. Counts do not measure materiality or investment quality. In the alternate review, two unresolved claims become supported and one becomes contradicted. This is a method illustration, not an audit.'
       },
       {
-        id: 'sector', title: 'Look along the value chain.', unit: 'Illustrative gross margin by activity · percent of activity revenue', output: 'Sector review', type: 'bars', labels: ['Processing','Distribution','Services'], values: [[18,12,32],[10,8,26]], max: 40,
+        id: 'sector',
+        startingPoint: "Three activities compete for investment.", analysis: "Compare margins across the value chain.", decisions: ["Investigate the service segment first.", "Stress-test the service margin before allocating capital."],
+        title: 'Look along the value chain.', unit: 'Example gross margin by activity · percent of activity revenue', output: 'Sector review', type: 'bars', labels: ['Processing','Distribution','Services'], values: [[18,12,32],[10,8,26]], max: 40,
         options: ['Base costs', 'Cost pressure'],
         findings: ['The activities have different margin structures. Understanding where value is captured is more useful than treating a sector as one average.', 'Cost pressure reduces margins across the chain. A sector review examines why some positions are more exposed and whether the assumptions are credible.'],
         assumptions: 'Fictional activities, each normalised to 100 units of revenue. Base costs: processing 82, distribution 88, services 68. Cost-pressure case adds 8, 4 and 6 respectively. Gross margin = (revenue − cost) ÷ revenue. Not comparable returns on capital; excludes overhead.'
       },
       {
-        id: 'strategy', title: 'Test the plan where it is fragile.', unit: 'Illustrative operating result · USD thousands · revenue change scenarios', output: 'Strategy review', type: 'bars', labels: ['−10% revenue','Base revenue','+10% revenue'], values: [[-5,5,15],[-10,0,10]], max: 20,
+        id: 'strategy',
+        startingPoint: "The annual plan depends on a revenue target.", analysis: "Test the plan against cost and revenue changes.", decisions: ["Set a trigger for reviewing spend if revenue falls.", "Rephase spending to restore the base surplus."],
+        title: 'Test the plan where it is fragile.', unit: 'Example operating result · USD thousands · revenue change scenarios', output: 'Strategy review', type: 'bars', labels: ['−10% revenue','Base revenue','+10% revenue'], values: [[-5,5,15],[-10,0,10]], max: 20,
         options: ['Current costs', 'Costs +$5k'],
         findings: ['A plan with a $5,000 base surplus turns negative after a 10% revenue shortfall. The review should identify the assumptions carrying the recommendation.', 'An extra $5,000 of fixed cost removes the base surplus. The useful discussion is what can be changed or validated before proceeding.'],
         assumptions: 'Fictional period revenue scenarios: USD 90k, 100k, 110k. Current total cost: USD 95k, held fixed for this narrow sensitivity; alternate cost USD 100k. Result = revenue minus cost. This is not a full strategy or cash-flow model.'
       },
       {
-        id: 'capital', title: 'A signal needs context.', unit: 'Illustrative demand index · six fictional periods · first period = 100', output: 'Research briefing', type: 'line', labels: ['P1','P2','P3','P4','P5','P6'], values: [[100,103,101,109,112,115],[100,103,101,109,106,104]], min: 95, max: 120,
+        id: 'capital',
+        startingPoint: "A team tracks demand across six periods.", analysis: "Update the demand index as evidence arrives.", decisions: ["Prepare capacity options for rising demand.", "Stage the capacity decision while the team checks the latest figures."],
+        title: 'A signal needs context.', unit: 'Example demand index · six fictional periods · first period = 100', output: 'Research briefing', type: 'line', labels: ['P1','P2','P3','P4','P5','P6'], values: [[100,103,101,109,112,115],[100,103,101,109,106,104]], min: 95, max: 120,
         options: ['Initial view', 'New evidence'],
         findings: ['The index suggests an upward direction. A briefing should explain the evidence, its relevance to the client’s question, and what would change the view.', 'Newer evidence weakens the apparent trend. Capital intelligence should keep the interpretation open to revision as the information changes.'],
         assumptions: 'Invented indexed observations, not market prices or investment performance. Both sequences start at 100; the final two observations are revised in the alternate view. A non-zero line-chart axis is labelled. Capital intelligence scope and cadence remain to be agreed.'
@@ -46,70 +58,71 @@
     let selected = Math.max(0, entries.findIndex(entry => `#${entry.id}` === location.hash));
     let mode = 0;
     const node = id => host.querySelector(`#${id}`);
-    const esc = text => String(text).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const svgText = (x,y,text,cls='') => `<text x="${x}" y="${y}" class="${cls}">${esc(text)}</text>`;
-    function graph(entry, values) {
-      let svg = '<svg viewBox="0 0 600 230" aria-hidden="true" focusable="false">';
-      if (entry.type === 'bars') {
-        const negative = values.some(value => value < 0);
-        const left = 150, right = 525, zero = negative ? 245 : left;
-        const extent = negative ? 260 : right-left;
-        const scale = extent / entry.max;
-        svg += `<path d="M${zero} 18V203" class="graph-axis"/>`;
-        values.forEach((value, i) => {
-          const y = 36+i*59, width = Math.abs(value)*scale;
-          const x = value < 0 ? zero-width : zero;
-          const shortLabels = entry.id === 'strategy' ? ['−10%', 'Base', '+10%'] : entry.id === 'sector' ? ['Processing', 'Distrib.', 'Services'] : entry.labels;
-          svg += svgText(4,y+19,shortLabels[i]);
-          svg += `<rect x="${x}" y="${y}" width="${width}" height="28" class="graph-bar ${value<0?'graph-negative':i===values.indexOf(Math.max(...values))?'graph-focus':''}"/>`;
-          svg += svgText(value<0 ? x-37 : x+width+10, y+19, value,'graph-value');
-        });
-        svg += svgText(zero-3,223,'0');
-      } else if (entry.type === 'stack') {
-        const colors=['#143A24','#6F9684','#9A4A2A']; let x=12;
-        values.forEach((value,i) => {
-          svg+=`<rect x="${x}" y="42" width="${value*56}" height="55" fill="${colors[i]}"/>`;
-          x+=value*56;
-        });
-        values.forEach((value,i) => {
-          svg+=`<rect x="12" y="${124+i*31}" width="8" height="8" fill="${colors[i]}"/>`;
-          svg+=svgText(32,133+i*31,entry.labels[i]);
-          svg+=svgText(540,133+i*31,value,'graph-value');
-        });
-      } else {
-        const x0=65,y0=185,w=470,h=150;
-        const px=i=>x0+i*w/(values.length-1);
-        const py=v=>y0-(v-entry.min)/(entry.max-entry.min)*h;
-        for(let i=0;i<3;i++){
-          const val=entry.min+(entry.max-entry.min)*i/2, y=py(val);
-          svg+=`<path d="M${x0} ${y}H550" class="graph-grid"/>`+svgText(5,y+4,Number(val.toFixed(1)));
-        }
-        const points=values.map((v,i)=>`${px(i)},${py(v)}`).join(' ');
-        svg+=`<path d="M${x0} ${y0} L${points.replaceAll(' ', ' L')} L535 ${y0}Z" class="graph-area"/>`;
-        svg+=`<polyline points="${points}" class="graph-line"/>`;
-        values.forEach((value,i)=>{
-          svg+=`<circle cx="${px(i)}" cy="${py(value)}" r="4" class="graph-dot"/>`;
-          svg+=svgText(px(i)-10,py(value)-12,value,'graph-value');
-          svg+=svgText(px(i)-9,218,entry.labels[i]);
-        });
+    let chart;
+    function drawChart(entry, values) {
+      if (!chart) {
+        const canvas = document.createElement('canvas');
+        node('lens-graph').replaceChildren(canvas);
+        chart = new Chart(canvas, {type: 'bar', data: {datasets: []}});
       }
-      return svg+'</svg>';
+      const line = entry.type === 'line';
+      const ring = entry.type === 'stack';
+      const series = {
+        type: ring ? 'doughnut' : line ? 'line' : 'bar', label: entry.options[mode], data: values,
+        backgroundColor: ring ? ['#d1e0d3', '#769680', '#40594a'] : line ? 'rgba(111,150,132,.2)' : '#a9c2b6',
+        borderColor: '#c9dacc', borderWidth: line ? 3 : 0, borderRadius: 4,
+        pointRadius: 4, pointHoverRadius: 7, fill: line, tension: .18, maxBarThickness: 42
+      };
+      chart.config.type = series.type;
+      chart.data.labels = entry.labels;
+      const comparison = {
+        ...series, label: entry.options[1-mode], data: entry.values[1-mode],
+        borderColor: '#8a9e90', backgroundColor: '#465b4d', borderDash: [4,4],
+        pointRadius: 2, fill: false
+      };
+      chart.data.datasets = ring ? [series] : [series, comparison];
+      chart.options = {
+        responsive: true, maintainAspectRatio: false,
+        animation: matchMedia('(prefers-reduced-motion: reduce)').matches ? false : {duration: 450},
+        interaction: {mode: 'index', intersect: false},
+        plugins: {legend: {display: true, position: 'bottom', onClick: () => {},
+            labels: {color: '#d7e1d9', usePointStyle: true, boxHeight: 8, font: {size: 13}}},
+            tooltip: {displayColors: true}},
+        scales: ring ? {} : {
+          x: {grid: {display: false}, ticks: {color: '#e5eee6', font: {size: 13}}},
+          y: {min: line ? entry.min : undefined, max: entry.max, beginAtZero: true,
+              grid: {color: '#ffffff20'}, ticks: {color: '#c8d5ca', precision: 0}}
+        }
+      };
+      chart.update();
     }
     function render(focus=false) {
       const entry=entries[selected], values=entry.values[mode];
+      const highest = values.indexOf(Math.max(...values));
+      let metrics;
+      switch (entry.id) {
+        case 'market-entry': metrics = ['Leading market', entry.labels[highest], 'Year-one contribution', '$'+values[highest]+'k']; break;
+        case 'feasibility': metrics = ['Break-even volume', entry.labels[values.indexOf(0)]+' units', 'At 1,000 units', '$'+values.at(-1)+'k']; break;
+        case 'diligence': metrics = ['Claims supported', values[0]+' / 10', 'Open questions', values[1]]; break;
+        case 'sector': metrics = ['Highest margin', entry.labels[highest], 'Gross margin', values[highest]+'%']; break;
+        case 'strategy': metrics = ['Base surplus', '$'+values[1]+'k', 'Revenue downside', '−$'+Math.abs(values[0])+'k']; break;
+        case 'capital': metrics = ['Latest index', values.at(-1), 'Since period one', '+'+(values.at(-1)-values[0])+'%']; break;
+      }
+      ['metric-label','metric-value','comparison-label','comparison-value'].forEach((id,i) => { node(id).textContent=metrics[i]; });
       tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===selected));tab.tabIndex=i===selected?0:-1;});
       node('lens-panel').setAttribute('aria-labelledby',tabs[selected].id);
       node('lens-title').textContent=entry.title;
       node('lens-unit').textContent=entry.unit;
       node('lens-finding').textContent=entry.findings[mode];
-      node('lens-output').textContent=`Output / ${entry.output}`;
+      node('lens-start').textContent=entry.startingPoint;
+      node('lens-analysis').textContent=entry.analysis;
+      node('lens-decision').textContent=entry.decisions[mode];
       node('lens-assumptions').textContent=entry.assumptions;
       node('lens-data').textContent=entry.labels.map((label,i)=>`${label}: ${values[i]}`).join('; ')+`. Measure: ${entry.unit}.`;
       node('lens-service-link').href=`/services#${entry.id}`;
-      host.querySelector('.lens-counter').textContent=`0${selected+1} / 06`;
       scenarios.forEach((button,i)=>{button.textContent=entry.options[i];button.setAttribute('aria-pressed',String(i===mode));});
-      const figure=node('lens-graph');figure.innerHTML=graph(entry,values);
-      figure.setAttribute('aria-label',`Illustrative ${entry.options[mode]}: ${entry.labels.map((label,i)=>`${label} ${values[i]}`).join('; ')}. ${entry.unit}.`);
+      const figure=node('lens-graph');drawChart(entry,values);
+      figure.setAttribute('aria-label',`Example ${entry.options[mode]}: ${entry.labels.map((label,i)=>`${label} ${values[i]}`).join('; ')}. ${entry.unit}.`);
       if(focus)tabs[selected].focus();
     }
     tabs.forEach((tab,i)=>{

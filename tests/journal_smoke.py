@@ -13,15 +13,22 @@ async def main():
    await page.goto(BASE,wait_until='networkidle')
    assert await page.locator('.city-image').evaluate('(img)=>img.complete&&img.naturalWidth>1000')
    assert await page.locator('.lens-tab').count()==6
+   hero = await page.locator('.city-hero').bounding_box()
+   assert hero['x'] == 0 and hero['width'] == width and hero['height'] >= 960
    for sid,option,expected in cases:
     await page.locator(f'[data-lens="{sid}"]').click()
     assert await page.locator(f'[data-lens="{sid}"]').get_attribute('aria-selected')=='true'
     before=await page.locator('#lens-graph').get_attribute('aria-label')
+    first_decision = await page.locator('#lens-decision').inner_text()
     await page.locator('[data-lens-scenario="alternate"]').click()
     assert await page.locator('[data-lens-scenario="alternate"]').inner_text()==option
     assert await page.locator('#lens-graph').get_attribute('aria-label')!=before
     accessible=(await page.locator('#lens-data').text_content())+' '+(await page.locator('#lens-graph').get_attribute('aria-label'))
     assert expected in accessible,(sid,accessible)
+    assert await page.locator('#lens-decision').inner_text() != first_decision
+    assert await page.locator('#lens-graph canvas').evaluate(
+        "(canvas) => Chart.getChart(canvas).getDatasetMeta(0).data.length > 0"
+    )
     assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth'),(width,sid)
    await page.locator('[data-lens="capital"]').focus();await page.keyboard.press('Home')
    assert await page.locator('[data-lens="market-entry"]').get_attribute('aria-selected')=='true'

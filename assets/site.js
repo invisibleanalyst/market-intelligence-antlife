@@ -69,12 +69,12 @@ function renderLossChart(measure) {
     const value = document.createElement('span'); value.className = 'loss-value'; value.textContent = `−$${Math.round(item[measure] / 1000)}k`;
     row.append(name, track, value); chart.append(row);
   }
-  chart.setAttribute('aria-label', `Historical modelled ${measure === 'adjusted' ? 'risk-adjusted' : 'expected'} first-year losses in USD: ${historical.map(d => `${d.name} ${d[measure].toLocaleString('en-US')}`).join('; ')}. All values are negative.`);
+  chart.setAttribute('aria-label', `Projected ${measure === 'adjusted' ? 'risk-adjusted' : 'expected'} first-year losses in USD: ${historical.map(d => `${d.name} ${d[measure].toLocaleString('en-US')}`).join('; ')}. All values are negative.`);
   document.querySelectorAll('[data-profit]').forEach(button => {
     const active = button.dataset.profit === measure;
     button.classList.toggle('active', active); button.setAttribute('aria-pressed', String(active));
   });
-  document.querySelector('#profit-caption').textContent = measure === 'adjusted' ? 'Historical risk-adjusted results widen the losses. The original risk methodology is unavailable and has not been independently validated.' : 'All four markets show a first-year loss under the historical model’s assumptions.';
+  document.querySelector('#profit-caption').textContent = measure === 'adjusted' ? 'The risk-adjusted projections show a larger first-year loss in each market. See the figures and assumptions below.' : 'The model projects a first-year loss in all four markets.';
 }
 document.querySelectorAll('[data-profit]').forEach(button => button.addEventListener('click', () => renderLossChart(button.dataset.profit)));
 renderLossChart('expected');

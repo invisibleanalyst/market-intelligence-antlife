@@ -54,3 +54,7 @@ The owner authorised committing and pushing Variant 2 to `redesign/variant-2-inv
 ## Publication and rollback
 
 The owner authorised committing and pushing variation 1 to `redesign/antlife-public-site` on 17 November 2026. Keep `main` unchanged. Two additional design variations are planned; repository cleanup is deferred until the variations are reviewed. Hosted preview deployment and production launch remain separate authorisation gates. No deployment has been performed by the agent. Hosting is Vercel per owner; actual production deployment ID and settings unverified. Before any launch, record the current deployment ID and environment settings, validate the approved preview, and prepare to promote the previous Vercel deployment if checks fail. Keep baseline Git commit available. Confirm retained legacy routes and existing payment-link handling with owner. Do not delete payment products or change provider configuration during website redesign.
+
+## Variant 2 refinement, 18 November 2026
+
+Local revision based on `6ab5a30`. The hero is full bleed. Reading surfaces use black and brand green with ivory text. All thirteen pages pair editorial imagery with procedural square-particle artwork. The Services and Home dashboards use a self-hosted MIT-licensed Chart.js 4.4.9 bundle, compare example scenarios and explain potential operating decisions. Case studies retain their original sources and status. The private proposal served only as a design reference. Hosted preview and publication still require owner approval.
