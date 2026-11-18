@@ -58,3 +58,7 @@ The owner authorised committing and pushing variation 1 to `redesign/antlife-pub
 ## Variant 2 refinement, 18 November 2026
 
 Local revision based on `6ab5a30`. The hero is full bleed. Reading surfaces use black and brand green with ivory text. All thirteen pages pair editorial imagery with procedural square-particle artwork. The Services and Home dashboards use a self-hosted MIT-licensed Chart.js 4.4.9 bundle, compare example scenarios and explain potential operating decisions. Case studies retain their original sources and status. The private proposal served only as a design reference. Hosted preview and publication still require owner approval.
+
+## Forest editorial edition of Variant 2
+
+Local branch `redesign/variant-2-forest-editorial` begins at `b14d58e`. The original image hero, supporting imagery, case text and service interactions are retained. White bands hold introductions and long-form reading, forest green frames the editorial sections, and black anchors the dashboard and enquiry page. Sentence-case DM Mono and selective scroll entrances draw on the light edition.

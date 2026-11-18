@@ -176,3 +176,19 @@
   addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(update);}},{passive:true});
   update();
 })();
+
+// Reveal a few editorial headings and the four research steps once on entry.
+(() => {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduced.matches || !('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver(entries => {
+    for (const {target, isIntersecting} of entries) {
+      if (isIntersecting) {
+        if (!reduced.matches) target.classList.add('story-enter');
+        observer.unobserve(target);
+      }
+    }
+  }, {threshold: .2});
+  document.querySelectorAll('.paper-band h2, .journal-insights h2, .method-foot')
+    .forEach(element => observer.observe(element));
+})();
