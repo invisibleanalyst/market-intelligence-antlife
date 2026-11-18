@@ -58,6 +58,11 @@
     let selected = Math.max(0, entries.findIndex(entry => `#${entry.id}` === location.hash));
     let mode = 0;
     const node = id => host.querySelector(`#${id}`);
+    const style = getComputedStyle(host);
+    const token = name => style.getPropertyValue(name).trim();
+    const chartInk = token('--ivory');
+    const chartMuted = token('--subtle');
+    Chart.defaults.font.family = token('--mono');
     let chart;
     function drawChart(entry, values) {
       if (!chart) {
@@ -69,15 +74,15 @@
       const ring = entry.type === 'stack';
       const series = {
         type: ring ? 'doughnut' : line ? 'line' : 'bar', label: entry.options[mode], data: values,
-        backgroundColor: ring ? ['#d1e0d3', '#769680', '#40594a'] : line ? 'rgba(111,150,132,.2)' : '#a9c2b6',
-        borderColor: '#c9dacc', borderWidth: line ? 3 : 0, borderRadius: 4,
+        backgroundColor: ring ? [chartInk, token('--sage'), token('--clay')] : line ? 'rgba(111,150,132,.2)' : token('--sage-light'),
+        borderColor: token('--sage-light'), borderWidth: line ? 3 : 0, borderRadius: 4,
         pointRadius: 4, pointHoverRadius: 7, fill: line, tension: .18, maxBarThickness: 42
       };
       chart.config.type = series.type;
       chart.data.labels = entry.labels;
       const comparison = {
         ...series, label: entry.options[1-mode], data: entry.values[1-mode],
-        borderColor: '#8a9e90', backgroundColor: '#465b4d', borderDash: [4,4],
+        borderColor: token('--sage'), backgroundColor: token('--clay'), borderDash: [4,4],
         pointRadius: 2, fill: false
       };
       chart.data.datasets = ring ? [series] : [series, comparison];
@@ -86,12 +91,12 @@
         animation: matchMedia('(prefers-reduced-motion: reduce)').matches ? false : {duration: 450},
         interaction: {mode: 'index', intersect: false},
         plugins: {legend: {display: true, position: 'bottom', onClick: () => {},
-            labels: {color: '#d7e1d9', usePointStyle: true, boxHeight: 8, font: {size: 13}}},
-            tooltip: {displayColors: true}},
+            labels: {color: chartInk, usePointStyle: true, boxHeight: 8, font: {size: 13}}},
+            tooltip: {displayColors: true, titleFont: {weight: 'normal'}}},
         scales: ring ? {} : {
-          x: {grid: {display: false}, ticks: {color: '#e5eee6', font: {size: 13}}},
+          x: {grid: {display: false}, ticks: {color: chartMuted, font: {size: 13}}},
           y: {min: line ? entry.min : undefined, max: entry.max, beginAtZero: true,
-              grid: {color: '#ffffff20'}, ticks: {color: '#c8d5ca', precision: 0}}
+              grid: {color: '#ffffff20'}, ticks: {color: chartMuted, precision: 0}}
         }
       };
       chart.update();

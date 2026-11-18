@@ -89,7 +89,7 @@
 .lens-finding>span{font:10px/1.6 var(--mono);text-transform:none;color:var(--subtle);padding-top:4px}
 .lens-finding>p{font-size:16px;line-height:1.5;margin:0;min-height:70px}
 .lens-bottom{display:flex;justify-content:space-between;gap:25px;align-items:center;margin-top:18px}
-.lens-bottom>a{display:flex;align-items:center;gap:15px;min-height:44px;font-size:13px;font-weight:600}
+.lens-bottom>a{display:flex;align-items:center;gap:15px;min-height:44px;font-size:13px;font-weight:400}
 .lens-bottom>span{font:10px/1.6 var(--mono);color:var(--subtle)}
 .lens-evidence{border-top:1px solid var(--stone);margin-top:10px;font-size:13px}
 .lens-evidence>summary{padding-block:12px;cursor:pointer;min-height:44px;color:var(--subtle)}
@@ -229,7 +229,7 @@
 .lens-tab > span { display: none; }
 .lens-tab > .arrow-icon { grid-column: 2; }
 .lens-tab[aria-selected=true] { box-shadow: inset 3px 0 var(--sage-light); }
-.lens-panel { background: #101b15; }
+.lens-panel { background: var(--panel); }
 .lens-panel-top { margin-bottom: 12px; }
 .demo-status { color: var(--subtle); font: 15px Figtree,sans-serif; text-transform: none; }
 .lens-title-row { flex-wrap: wrap; align-items: center; }
@@ -295,27 +295,27 @@
 
 /* Forest edition: white for sustained reading, ink for interactive tools. */
 .journal-v2 {
-  background: #143a24;
+  background: var(--green);
 }
 .journal-v2 .paper-band {
   color-scheme: light;
-  --subtle: #47594d;
-  --stone: #cbd5cd;
-  --ivory: #143a24;
-  background: #fff;
-  color: #18251d;
+  --subtle: var(--muted-on-white);
+  --stone: var(--rule-on-white);
+  --ivory: var(--green);
+  background: var(--white);
+  color: var(--ink-on-white);
 }
 .paper-band :is(.editorial-plate, .about-art) { --ivory: #f2f0ea; }
 .journal-v2 .paper-band :focus-visible { outline-color: #315f42; }
-.journal-v2 .paper-band .text-link { color: #143a24; }
+.journal-v2 .paper-band .text-link { color: var(--green); }
 .paper-band .secondary-chart > i { background: #638773; }
-.paper-band .secondary-chart > i:last-child { background: #143a24; }
+.paper-band .secondary-chart > i:last-child { background: var(--green); }
 .journal-v2 .service-laboratory, .journal-v2 .contact-layout { background: var(--black); }
 .journal-v2:has(.contact-layout) { background: var(--black); }
 .journal-v2:has(.contact-layout) .page-mast { background: var(--black); }
-.journal-v2 .journal-method, .journal-v2 .journal-closing { background: #143a24; }
-.journal-v2 .journal-insights { background: #143a24; }
-.journal-v2 .journal-article-card { background: #0c1811; }
+.journal-v2 .journal-method, .journal-v2 .journal-closing { background: var(--green); }
+.journal-v2 .journal-insights { background: var(--green); }
+.journal-v2 .journal-article-card { background: var(--black); }
 .journal-v2 .site-header nav, .journal-v2 .hero-actions, .journal-v2 .status,
 .journal-v2 .feature-copy .status, .journal-v2 .case-tags > span,
 .journal-v2 .metric-strip span, .journal-v2 .lens-unit, .journal-v2 .decision-path dt {
@@ -335,4 +335,22 @@
     from { opacity: .55; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
   }
+}
+
+/* Action labels use the same regular mono face across editorial and analytical pages. */
+.journal-v2 :is(button, .button, .text-link, .quiet-link, .back-link, .article-read,
+                .lens-bottom a, .chapter-nav a, details summary) {
+  font-family: var(--mono);
+  font-weight: 400;
+}
+.journal-v2 .lens-tab strong { font-weight: inherit; }
+.journal-v2 .lens-tab small { font-family: Figtree, Arial, sans-serif; }
+.journal-v2 :is(.filter.active, .segmented button.active, .stage-tabs button[aria-selected=true]) {
+  color: var(--green);
+  background: var(--ivory);
+}
+.journal-v2 :is(.filter.active, .segmented button.active,
+                .stage-tabs button[aria-selected=true], .lens-scenarios button[aria-pressed=true]):focus-visible {
+  outline-color: var(--green);
+  outline-offset: -4px;
 }
