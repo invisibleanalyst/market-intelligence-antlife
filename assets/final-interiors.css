@@ -1,0 +1,36 @@
+.journal-v2 .page-mast,.journal-v2 .paper-band,.journal-v2 .practice-profile { background:#f7f7ef; color:#14251c; }
+.journal-v2 .page-mast { max-width:none; }
+.journal-v2 .page-mast h1,.journal-v2 .case-mast h1,.journal-v2 .article h1,.journal-v2 .closing h2,.practice-profile h2,.work-card-copy h2 { font:400 clamp(40px,5.3vw,84px)/1.05 var(--final-serif); letter-spacing:-.045em; }
+.journal-v2 .page-mast h1,.page-mast .page-lead {color:#113b2c}
+.page-mast .page-lead { margin:20px 0; }
+.interior-link { display:inline-flex;align-items:center;gap:14px;min-height:44px;border-bottom:1px solid currentColor;font:14px var(--mono); }
+.journal-v2 .service-detail,.practice-profile {display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,5vw,88px)}
+.practice-profile p {max-width:50ch}
+.service-index-heading {display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:32px;border-bottom:1px solid var(--stone)}
+.work-card-copy {padding-block:20px}
+.work-card-copy h2 {font-size:clamp(30px,3vw,48px);margin-block:12px}
+.page-mast:not(:has(.editorial-plate)) {display:block}
+@media(max-width:720px){.journal-v2 .service-detail,.practice-profile{grid-template-columns:1fr}.service-detail>div:last-child{grid-column:auto}.service-index-heading{flex-wrap:wrap}}
+
+/* Paper for reading; evergreen for evidence, comparisons and enquiry controls. */
+.journal-v2 { background:var(--final-paper); }
+.journal-v2:has(.contact-layout) .page-mast { background:var(--final-paper); }
+.journal-v2 .page-mast:has(.pixel-composition) { display:grid; }
+.journal-v2 .page-mast .pixel-caption,.journal-v2 .page-mast .replay-pixels { color:var(--final-muted); }
+.journal-v2 :is(.case-mast,.closing,.stage-diagram) { background:var(--final-green); color:var(--final-paper); }
+.journal-v2 :is(.model-section,.case-explorer,.service-laboratory,.evidence-section,.chapter-nav,.contact-layout,.scenario-layout) {
+  background:var(--final-night); color:var(--final-paper);
+}
+.journal-v2 :is(.case-intro h2,.reading-sidebar h2,.process-list h2,.insight-row h2,.section-heading h2,.service-detail h2,.contact-layout h2,.article-body h2,.legal-copy h2,.scenario-layout h2) {
+  font-family:var(--final-serif); font-weight:400; letter-spacing:-.04em;
+}
+.journal-v2 .insights-index {
+  background:var(--final-paper); color:var(--final-ink); --subtle:var(--final-muted); --stone:var(--final-line);
+}
+.journal-v2 .filter.active { background:var(--final-green); border-color:var(--final-green); color:var(--final-paper); }
+.journal-v2 .loss-bar { background:var(--final-mark); }
+.journal-v2 .loss-track { border-color:var(--final-comparison); }
+.journal-v2 .service-laboratory { --sage-light:var(--final-mark); --sage:var(--final-comparison); --clay:#648574; --ivory:var(--final-paper); }
+.journal-v2 .contact-form {background:var(--final-moss);}
+.journal-v2 .pixel-field { background-color:var(--final-moss); }
+.journal-v2 .work-index .editorial-plate,.journal-v2 .page-mast .editorial-plate { aspect-ratio:1.85; overflow:hidden; }

@@ -9,3 +9,5 @@ Remote image-source requests were blocked by the environment proxy. No unlicense
 The port, mill, studio and tower WebP images are original AI-generated editorial artwork created for this revision. They depict imagined settings. No image identifies a client, its premises or a project site.
 
 Variant 4’s thread-study.webp is an original AI-generated editorial still life of yarn and fabric. It illustrates the research question and does not depict a client's material or premises.
+
+capital-relief.webp is original AI-generated editorial artwork depicting a sculptural paper landscape. It is a visual interpretation of terrain, independent of any particular investment or surveyed location.

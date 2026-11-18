@@ -1,0 +1,65 @@
+@font-face {
+  font-family: Baskervville;
+  src: url('/assets/fonts/Baskervville-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Baskervville;
+  src: url('/assets/fonts/Baskervville-Italic.woff2') format('woff2');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+:root { --final-paper:#f7f7ef; --final-green:#113b2c; --final-ink:#14251c; --final-line:#becabe; --final-serif:Baskervville,Georgia,serif; }
+body .site-header,.journal-v2 .site-header { color-scheme:light; position:relative; inset:auto; background:var(--final-paper); color:var(--final-green); border-bottom:1px solid var(--final-line); }
+body .site-header .brand img,.journal-v2 .site-header .brand img { content:url('/assets/brand/logo-green.svg'); width:122px; }
+body .site-header .header-inner { min-height:82px; }
+body .site-header #main-nav { font:400 14px/1.45 var(--mono); color:var(--final-ink); }
+body .site-header #main-nav .nav-cta { background:var(--final-green); color:#f7f7ef; border:1px solid var(--final-green); gap:20px; padding:9px 18px; }
+body .site-header #main-nav .nav-cta:hover { background:#21543c; }
+body .site-header .menu-icon i { background:var(--final-green); }
+body .site-header .menu-toggle { color:var(--final-green); font-family:var(--mono); }
+body .site-header :focus-visible,body .site-footer :focus-visible { outline:2px solid #417051; outline-offset:3px; }
+body .site-header .brand span { letter-spacing:.1em; }
+body .site-footer { color-scheme:light; background:var(--final-paper); color:var(--final-green); border-top:1px solid var(--final-line); }
+body .site-footer .brand img { content:url('/assets/brand/logo-green.svg'); }
+body .site-footer .footer-top p,body .site-footer .footer-bottom { color:#455c4c; }
+body .site-footer .footer-bottom { border-color:var(--final-line); }
+body .site-footer .footer-email { color:var(--final-green); }
+body .skip-link:not(:focus) { clip-path:inset(50%); }
+@media (max-width:900px) {
+  body .site-header .header-inner { min-height:74px; }
+  body .site-header #main-nav { background:var(--final-paper); border-color:var(--final-line); font-size:16px; }
+}
+
+/* Shared editorial and analytical roles for all thirteen routes. */
+:root {
+  --final-night:#0d2119;
+  --final-moss:#173b2b;
+  --final-mark:#c7e4ab;
+  --final-comparison:#adc2ae;
+  --final-muted:#455c4c;
+  --final-motion-time:420ms;
+  --final-motion-ease:cubic-bezier(.2,.72,.22,1);
+}
+body { --green:var(--final-green); --black:var(--final-night); --panel:var(--final-moss); --paper:var(--final-paper); }
+body :is(button,summary,.interior-link,.rule-action,.solid-action,.quiet-action,.entry-contact,.button,.footer-email) {
+  font-family:var(--mono); font-weight:400;
+}
+body :is(.entry-metrics dd,.metric-strip strong,.scenario-result strong,.loss-value) {
+  font-family:var(--mono); font-weight:400; font-variant-numeric:tabular-nums;
+}
+body .editorial-plate,body .case-picture { background:var(--final-moss); }
+body .editorial-plate img,body .case-picture img { display:block; width:100%; object-fit:cover; }
+@media(prefers-reduced-motion:no-preference) {
+  .home-case .case-picture img,.work-card .editorial-plate img { transition:transform var(--final-motion-time) var(--final-motion-ease); }
+  .work-card:is(:hover,:focus-visible) .editorial-plate img { transform:scale(1.025); }
+  .story-enter,.method-foot.story-enter>span { animation-duration:var(--final-motion-time); animation-timing-function:var(--final-motion-ease); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .home-case:hover img,.work-card:hover img { transform:none; }
+  html {scroll-behavior:auto;}
+}
+body .skip-link:focus { background:var(--final-paper); color:var(--final-green); outline:2px solid var(--final-green); }

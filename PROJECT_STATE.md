@@ -66,3 +66,7 @@ Local branch `redesign/variant-2-forest-editorial` begins at `b14d58e`. The orig
 ## Variant 4 — The Field Journal
 
 The independent branch `redesign/variant-4-field-journal` begins at the forest editorial edition (`f541634`). Below its original hero, the homepage pairs an original textile still life with a three-stage drawing exploring supply, sorting and a proposed pilot. Mobile, reduced-motion and JavaScript-free readers receive complete inline figures. The contrasting financial spread uses the original independent expansion study’s four expected first-year projections. Both features link to the full case and its source notes.
+
+## Final edition — Before you commit capital
+
+Local branch `redesign/final-edition` introduces an original paper-relief cover, two evidence-led case studies, a keyboard-operable market-entry comparison and three decision-led service paths. The comparison uses fictional inputs and reaches parity at $37,000 in Market B launch costs. The contact flow and production launch prerequisites still apply.

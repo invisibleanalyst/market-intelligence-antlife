@@ -1,4 +1,4 @@
-"""Field Journal reading modes, service demonstrations and chapter navigation."""
+"""Final edition homepage, service demonstrations and chapter navigation."""
 import asyncio
 import os
 from playwright.async_api import async_playwright, expect
@@ -11,21 +11,32 @@ async def main():
    page=await b.new_page(viewport={'width':width,'height':960})
    errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
    await page.goto(BASE,wait_until='networkidle')
-   assert await page.locator('.city-image').evaluate('(img)=>img.complete&&img.naturalWidth>1000')
-   hero = await page.locator('.city-hero').bounding_box()
-   assert hero['x'] == 0 and hero['width'] == width and hero['height'] >= 960
-   assert await page.locator('.fj-step').count() == 3
-   await page.locator('.fj-cover-image img').scroll_into_view_if_needed()
-   assert await page.locator('.fj-cover-image img').evaluate('(img)=>img.complete && img.naturalWidth===1500')
-   if width > 800:
-    for slug,caption in [('supply','Mixed fibres'),('process','Sorted strands'),('pilot','Trial yarn')]:
-     await page.locator('#thread-'+slug).evaluate("(el)=>el.scrollIntoView({behavior:'instant',block:'center'})")
-     await expect(page.locator('.fj-plate figcaption')).to_have_text(caption)
-   else:
-    await expect(page.locator('.fj-inline:visible')).to_have_count(3)
-   await page.emulate_media(reduced_motion='reduce')
-   await expect(page.locator('.fj-inline:visible')).to_have_count(3)
-   await page.emulate_media(reduced_motion='no-preference')
+   assert await page.locator('.relief-landscape').evaluate('(img) => img.complete && img.naturalWidth > 0')
+   study = page.locator('#entry-study')
+   cost = study.locator('#entry-cost')
+   net = study.locator('#market-b-net')
+   result = study.locator('#entry-result')
+   await expect(cost).to_have_value('20')
+   await expect(net).to_contain_text('$41')
+   await expect(result).to_contain_text('Market B')
+   await cost.focus()
+   await page.keyboard.press('Home')
+   await expect(net).to_contain_text('$61')
+   await page.keyboard.press('End')
+   await expect(net).to_contain_text('$1')
+   await expect(result).to_contain_text('Market A')
+   await page.keyboard.press('Home')
+   for _ in range(35):
+    await page.keyboard.press('ArrowRight')
+   for value, amount, decision in [('36', '$25k', 'Pilot Market B.'), ('37', '$24k', 'The markets tie.'), ('38', '$23k', 'Pilot Market A.')]:
+    await page.keyboard.press('ArrowRight')
+    await expect(cost).to_have_value(value)
+    await expect(net).to_have_text(amount)
+    await expect(result).to_have_text(decision)
+   await study.locator('summary').click()
+   await expect(study.locator('details')).to_have_attribute('open','')
+   await study.locator('a[href="/contact?service=market-entry"]').click()
+   await expect(page.locator('#service')).to_have_value('market-entry')
    await page.goto(BASE+'/services',wait_until='networkidle')
    assert await page.locator('.lens-tab').count()==6
    for sid,option,expected in cases:
@@ -61,6 +72,14 @@ async def main():
    await expect(page.locator('.chapter-nav a[href="#case-conclusion"]')).to_have_attribute('aria-current','location')
    assert not errors,errors
    await page.close()
+  static = await b.new_page(java_script_enabled=False,viewport={'width':390,'height':844})
+  await static.goto(BASE)
+  await expect(static.locator('#entry-cost')).to_be_disabled()
+  await expect(static.locator('#market-b-net')).to_have_text('$41k')
+  await static.get_by_text('Is this investment viable?',exact=True).click()
+  await static.locator('a[href="/services#feasibility"]').click()
+  await expect(static.locator('#feasibility h2')).to_be_visible()
+  await static.close()
   await b.close()
- print('PASS: all six service demonstrations and alternate values at mobile/desktop; keyboard selection; deep links; image load; reduced motion; scrolling chapter state. No page errors.')
+ print('PASS: homepage entry-cost model and enquiry, six service demonstrations, keyboard controls, shareable service links, reduced motion and scrolling chapter state at mobile and desktop widths.')
 asyncio.run(main())

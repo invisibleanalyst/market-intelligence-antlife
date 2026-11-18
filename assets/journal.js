@@ -88,7 +88,7 @@
       chart.data.datasets = ring ? [series] : [series, comparison];
       chart.options = {
         responsive: true, maintainAspectRatio: false,
-        animation: matchMedia('(prefers-reduced-motion: reduce)').matches ? false : {duration: 450},
+        animation: matchMedia('(prefers-reduced-motion: reduce)').matches ? false : {duration: parseFloat(token('--final-motion-time')) || 420},
         interaction: {mode: 'index', intersect: false},
         plugins: {legend: {display: true, position: 'bottom', onClick: () => {},
             labels: {color: chartInk, usePointStyle: true, boxHeight: 8, font: {size: 13}}},
