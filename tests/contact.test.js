@@ -17,7 +17,7 @@ test('enquiry endpoint rejects wrong methods, origins, invalid input and missing
   assert.equal((await request(valid, 'GET')).status, 405);
   assert.equal((await request(valid, 'POST', 'https://other.example.org')).status, 403);
   assert.equal((await request(valid, 'POST', null)).status, 403);
-  for (const body of [{}, { ...valid, email: 'invalid' }, { ...valid, message: 'short' }, { ...valid, service: 'unknown' }, { ...valid, name: ' ' }, { ...valid, email: 'x@example.org\r\nInjected' }, 'invalid-json']) assert.equal((await request(body)).status, 400);
+  for (const body of [{}, { ...valid, email: 'invalid' }, { ...valid, message: 'short' }, { ...valid, service: 'unknown' }, { ...valid, timing: 'x'.repeat(151) }, { ...valid, name: ' ' }, { ...valid, email: 'x@example.org\r\nInjected' }, 'invalid-json']) assert.equal((await request(body)).status, 400);
   const unconfigured = await request(); assert.equal(unconfigured.status, 503); assert.equal(unconfigured.headers['Cache-Control'], 'no-store');
 });
 test('honeypot never calls the email provider', async () => {
@@ -28,8 +28,10 @@ test('configured delivery uses fixed recipient, reply-to, and escaped HTML', asy
   process.env.RESEND_API_KEY = 'test-key-not-a-secret'; process.env.CONTACT_FROM = 'Antlife <preview@example.org>';
   let sent;
   global.fetch = async (url, options) => { assert.equal(url, 'https://api.resend.com/emails'); sent = JSON.parse(options.body); return { ok: true }; };
-  assert.equal((await request({ ...valid, message: '<script>alert("x")</script> This is an enquiry.' })).status, 200);
+  assert.equal((await request({ ...valid, timing: 'Q1 <tentative>', message: '<script>alert("x")</script> This is an enquiry.' })).status, 200);
   assert.deepEqual(sent.to, ['info@antlife.one']); assert.equal(sent.reply_to, valid.email); assert.ok(sent.html.includes('&lt;script&gt;')); assert.ok(!sent.html.includes('<script>'));
+  assert.ok(sent.text.includes('Timing: Q1 <tentative>'));
+  assert.ok(sent.html.includes('Timing: Q1 &lt;tentative&gt;'));
 });
 test('provider failures never report successful delivery', async () => {
   global.fetch = async () => ({ ok: false }); assert.equal((await request()).status, 502);

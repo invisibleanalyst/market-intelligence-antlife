@@ -97,8 +97,8 @@ body .editorial-plate img,body .case-picture img { display:block; width:100%; ob
 /* Entrances only run after a section reaches the viewport. */
 @media (prefers-reduced-motion: no-preference) {
   [data-scroll-entrance].is-entering {
-    --scroll-travel: clamp(14px, 2vw, 28px);
-    animation: var(--scroll-entrance) var(--scroll-duration, 500ms) var(--final-motion-ease)
+    --scroll-travel: clamp(8px, 1.2vw, 18px);
+    animation: var(--scroll-entrance) var(--scroll-duration, 540ms) cubic-bezier(.24,.44,.25,1)
                var(--scroll-delay, 0ms) both;
   }
   [data-scroll-entrance="rise"] { --scroll-entrance: scroll-rise; }
@@ -114,50 +114,50 @@ body .editorial-plate img,body .case-picture img { display:block; width:100%; ob
   [data-scroll-entrance="bars"] { --scroll-entrance: scroll-fade; }
 
   .entry-figure.is-entering .entry-series {
-    animation: scroll-draw 640ms var(--final-motion-ease) 115ms both;
+    animation: scroll-draw 650ms cubic-bezier(.24,.44,.25,1) 55ms both;
   }
   .loss-chart.is-entering .loss-bar {
     transform-origin: right center;
-    animation: scroll-grow-bar 550ms var(--final-motion-ease) both;
+    animation: scroll-grow-bar 560ms cubic-bezier(.24,.44,.25,1) both;
   }
   .loss-chart.is-entering .loss-row:nth-child(2) .loss-bar { animation-delay: 45ms; }
   .loss-chart.is-entering .loss-row:nth-child(3) .loss-bar { animation-delay: 90ms; }
   .loss-chart.is-entering .loss-row:nth-child(4) .loss-bar { animation-delay: 135ms; }
 
   @keyframes scroll-rise {
-    from { opacity: .6; translate: 0 14px; }
+    from { opacity: .82; translate: 0 9px; }
     to { opacity: 1; translate: 0 0; }
   }
   @keyframes scroll-left {
-    from { opacity: .64; translate: calc(-1 * var(--scroll-travel)) 0; }
+    from { opacity: .82; translate: calc(-1 * var(--scroll-travel)) 0; }
     to { opacity: 1; translate: 0 0; }
   }
   @keyframes scroll-right {
-    from { opacity: .64; translate: var(--scroll-travel) 0; }
+    from { opacity: .82; translate: var(--scroll-travel) 0; }
     to { opacity: 1; translate: 0 0; }
   }
   @keyframes scroll-fade {
-    from { opacity: .56; }
+    from { opacity: .82; }
     to { opacity: 1; }
   }
   @keyframes scroll-settle {
-    from { opacity: .62; scale: .975; }
+    from { opacity: .82; scale: .985; }
     to { opacity: 1; scale: 1; }
   }
   @keyframes scroll-row {
-    from { opacity: .6; translate: calc(-.45 * var(--scroll-travel)) 6px; }
+    from { opacity: .82; translate: calc(-.45 * var(--scroll-travel)) 6px; }
     to { opacity: 1; translate: 0 0; }
   }
   @keyframes scroll-uncover-left {
-    from { opacity: .7; clip-path: inset(0 16% 0 0); }
+    from { opacity: .82; clip-path: inset(0 11% 0 0); }
     to { opacity: 1; clip-path: inset(0); }
   }
   @keyframes scroll-uncover-right {
-    from { opacity: .7; clip-path: inset(0 0 0 16%); }
+    from { opacity: .82; clip-path: inset(0 0 0 11%); }
     to { opacity: 1; clip-path: inset(0); }
   }
   @keyframes scroll-open-down {
-    from { opacity: .76; clip-path: inset(0 0 14% 0); }
+    from { opacity: .82; clip-path: inset(0 0 10% 0); }
     to { opacity: 1; clip-path: inset(0); }
   }
   @keyframes scroll-draw {
@@ -165,12 +165,12 @@ body .editorial-plate img,body .case-picture img { display:block; width:100%; ob
     to { clip-path: inset(-5px); }
   }
   @keyframes scroll-grow-bar {
-    from { scale: .05 1; }
+    from { scale: .15 1; }
     to { scale: 1 1; }
   }
 
   @media (max-width: 700px) {
-    [data-scroll-entrance].is-entering { --scroll-travel: 10px; }
+    [data-scroll-entrance].is-entering { --scroll-travel: 6px; }
   }
 }
 

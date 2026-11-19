@@ -110,12 +110,14 @@ document.querySelectorAll('[data-filter]').forEach(button => button.addEventList
 
 const form = document.querySelector('#contact-form');
 if (form) {
+  const button = form.querySelector('button[type=submit]');
+  const buttonContent = [...button.childNodes];
+  const status = document.querySelector('#form-status');
   const service = new URLSearchParams(location.search).get('service');
   if ([...form.elements.service.options].some(option => option.value === service)) form.elements.service.value = service;
   form.addEventListener('submit', async e => {
     e.preventDefault();
-    if (!form.reportValidity()) return;
-    const button = form.querySelector('button[type=submit]'), status = document.querySelector('#form-status');
+    if (button.disabled || !form.reportValidity()) return;
     button.disabled = true; button.textContent = 'Sending…'; status.dataset.state = 'pending'; status.textContent = 'Sending your enquiry…';
     try {
       const controller = new AbortController();
@@ -125,12 +127,17 @@ if (form) {
         response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))), signal: controller.signal });
       } finally { clearTimeout(timeout); }
       if (!response.ok) throw new Error('Delivery unavailable');
-      status.dataset.state = 'success'; status.textContent = 'Thank you. Your enquiry has been sent to Antlife. We’ll respond by email.';
+      status.dataset.state = 'success'; status.textContent = 'Your brief is with Antlife. We’ll review the decision you described and reply by email about the next step.';
       form.reset();
     } catch {
-      status.dataset.state = 'error'; status.textContent = 'Your enquiry could not be sent. Your message is still here. Please retry or email info@antlife.one directly.';
+      status.dataset.state = 'error';
+      const email = document.createElement('a');
+      email.href = 'mailto:info@antlife.one';
+      email.textContent = 'email info@antlife.one';
+      status.replaceChildren('Your brief could not be sent. Your message is still here. Please retry or ', email, '.');
     } finally {
-      button.disabled = false; button.innerHTML = 'Send enquiry <svg class="arrow-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M3 3h10v10"/></svg>';
+      button.replaceChildren(...buttonContent);
+      button.disabled = false;
     }
   });
 }
@@ -208,39 +215,27 @@ if (form) {
   if (!('IntersectionObserver' in window)) return;
   const motion = matchMedia('(prefers-reduced-motion: no-preference)');
   const entrances = [
-    ['rise', '.home-heading, .service-index-heading, .service-laboratory .section-heading, .contact-note'],
-    ['rise', '.case-explorer .section-heading, .model-section .section-heading h2, .case-intro h2'],
-    ['left', '.page-mast .mast-copy:has(+ .editorial-plate), .entry-copy > :is(.entry-category, h2), .practice-intro'],
-    ['rise', '.page-mast .mast-copy:not(:has(+ .editorial-plate)), .case-mast .page-lead, .article-deck'],
-    ['right', '.page-mast .mast-copy + .editorial-plate', 65],
-    ['settle', '.page-mast .pixel-composition', 65],
+    ['rise', '.home-heading, .service-index-heading, .service-laboratory .section-heading'],
+    ['rise', '.case-explorer .section-heading, .case-intro h2, .reading-body > .large-copy'],
+    ['left', '.page-mast .mast-copy:has(+ .editorial-plate), .entry-copy h2, .practice-intro'],
+    ['fade', '.case-mast .page-lead, .article-deck, .legal-copy > h2'],
+    ['right', '.page-mast .mast-copy + .editorial-plate'],
+    ['settle', '.page-mast .pixel-composition, .stage-diagram'],
     ['open-down', '.case-mast .editorial-plate, .article > .editorial-plate'],
     ['uncover-left', ':is(.home-cases, .work-grid) > a:nth-child(odd) :is(.case-picture, .editorial-plate)'],
     ['uncover-right', ':is(.home-cases, .work-grid) > a:nth-child(even) :is(.case-picture, .editorial-plate)'],
-    ['rise', '.home-case .case-meta, .work-card-copy', 75],
-    ['fade', '.entry-copy > .entry-intro', 65],
-    ['rise', '.entry-reading'],
     ['chart', '.entry-figure'],
-    ['rise', '.practice-questions details:nth-child(1)'],
-    ['rise', '.practice-questions details:nth-child(2)', 50],
-    ['rise', '.practice-questions details:nth-child(3)', 100],
-    ['left', '.home-invitation .container > div:first-child, .practice-profile > h2'],
-    ['fade', '.home-invitation .container > div:last-child, .practice-profile > div', 90],
+    ['rise', '.practice-questions'],
+    ['rise', '.home-invitation .container, .practice-profile > h2, .closing-inner > div'],
     ['rise', '.service-detail > div:first-child'],
-    ['fade', '.service-detail > div:last-child', 80],
+    ['fade', '.service-detail > div:last-child', 55],
     ['left', '.process-list article > .service-number'],
-    ['rise', '.process-list article > h2', 55],
-    ['fade', '.process-list article > p', 115],
-    ['settle', '.evidence-section .section-heading, .evidence-grid article'],
-    ['settle', '.stage-diagram, .lens-graph'],
+    ['rise', '.process-list article > h2', 40],
+    ['fade', '.process-list article > p', 75],
+    ['settle', '.evidence-grid article'],
     ['bars', '.loss-chart'],
-    ['fade', '.case-intro > div, .scenario-layout > div:first-child', 75],
-    ['right', '.scenario-card, .contact-form', 65],
-    ['rise', '.reading-sidebar > h2, .reading-body > .large-copy'],
-    ['row', '.insight-row'],
-    ['fade', '.legal-copy > h2'],
-    ['rise', '.closing-inner > div'],
-    ['right', '.closing-inner > .button', 80]
+    ['fade', '.scenario-layout > div:first-child'],
+    ['row', '.insight-row']
   ];
   const observer = new IntersectionObserver(entries => {
     for (const {target, isIntersecting} of entries) {
@@ -250,10 +245,13 @@ if (form) {
         target.classList.add('is-entering');
       }
     }
-  }, {threshold: 0.08});
+  }, {rootMargin: "0px 0px 14px 0px", threshold: 0.01});
 
   for (const [effect, selector, delay] of entrances) {
     document.querySelectorAll(selector).forEach(target => {
+      // Content already on screen keeps its initial paint. Animate subsequent arrivals.
+      const bounds = target.getBoundingClientRect();
+      if (bounds.top < innerHeight && bounds.bottom > 0) return;
       target.dataset.scrollEntrance = effect;
       if (delay) target.style.setProperty('--scroll-delay', delay + 'ms');
       observer.observe(target);

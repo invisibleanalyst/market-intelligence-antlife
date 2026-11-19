@@ -34,3 +34,48 @@
 .journal-v2 .contact-form {background:var(--final-moss);}
 .journal-v2 .pixel-field { background-color:var(--final-moss); }
 .journal-v2 .work-index .editorial-plate,.journal-v2 .page-mast .editorial-plate { aspect-ratio:1.85; overflow:hidden; }
+
+/* Contact pairs a clear next step with a short brief in the first view. */
+.contact-page { background: var(--final-paper); color: var(--final-ink); }
+.journal-v2 .contact-page .contact-layout {
+  align-items: start;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(32px, 7vw, 105px);
+  max-width: 1360px;
+  padding-block: clamp(36px, 5vw, 72px);
+  background: transparent;
+  color: inherit;
+}
+.contact-page h1 {
+  max-width: 10em;
+  margin-bottom: 20px;
+  font: 400 clamp(42px, 5.25vw, 76px)/1.02 var(--final-serif);
+  letter-spacing: -.045em;
+  color: var(--final-green);
+}
+.contact-page .contact-note > p { max-width: 34ch; font-size: 18px; color: var(--final-muted); }
+.contact-page .contact-direct { margin-top: 24px; font-size: 15px; }
+.contact-direct a, #open-calendar, .contact-page #form-status a { text-decoration: underline; text-underline-offset: 4px; }
+.contact-booking:not([hidden]) { display: flex; align-items: flex-start; gap: 8px; flex-direction: column; }
+#open-calendar { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; font-size: 14px; }
+.journal-v2 .contact-page .contact-form {
+  background: var(--final-green);
+  color: var(--final-paper);
+  padding: clamp(20px, 3.2vw, 44px);
+  border-color: var(--final-green);
+}
+.contact-page .contact-form h2 { margin-bottom: 8px; font-size: clamp(30px, 3vw, 42px); line-height: 1.1; }
+.contact-page .brief-intro { margin-bottom: 20px; font-size: 16px; }
+.contact-page .field { margin-bottom: 16px; }
+.contact-page textarea::placeholder { color: #b2c2b7; opacity: 1; }
+.contact-page .form-row { gap: 0 16px; }
+.contact-page .brief-details { margin-bottom: 13px; }
+.contact-page .brief-details summary { cursor: pointer; padding-block: 10px; min-height: 44px; font-size: 13px; }
+.contact-page .brief-details summary span, .contact-page .form-privacy { color: #c6d4ca; }
+.contact-page .contact-form button[type="submit"] { background: var(--final-paper); color: var(--final-green); }
+.contact-page .contact-note :focus-visible { outline-color: var(--final-green); }
+.contact-page .contact-form :focus-visible { outline-color: var(--final-mark); }
+
+@media (max-width: 760px) {
+  .journal-v2 .contact-page .contact-layout { grid-template-columns: minmax(0, 1fr); }
+}
