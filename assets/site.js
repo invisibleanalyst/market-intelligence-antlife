@@ -60,6 +60,7 @@ const historical = [
 function renderLossChart(measure) {
   const chart = document.querySelector('#loss-chart');
   if (!chart) return;
+  chart.classList.remove('is-entering');
   chart.replaceChildren();
   for (const item of historical) {
     const row = document.createElement('div'); row.className = 'loss-row'; row.setAttribute('aria-hidden', 'true');
@@ -202,25 +203,83 @@ if (form) {
   window.addEventListener('pagehide', reset);
 })();
 
-// Observe each element once. Its default presentation is always readable.
+// Match entrances to the site's layouts. Observe content, never pinned navigation.
 (() => {
   if (!('IntersectionObserver' in window)) return;
-  const roles = {
-    heading: 'main h2',
-    photo: '.case-picture, .editorial-plate',
-    chart: '.entry-figure, .loss-chart, .lens-graph, .stage-diagram'
-  };
+  const motion = matchMedia('(prefers-reduced-motion: no-preference)');
+  const entrances = [
+    ['rise', '.home-heading, .service-index-heading, .service-laboratory .section-heading, .contact-note'],
+    ['rise', '.case-explorer .section-heading, .model-section .section-heading h2, .case-intro h2'],
+    ['left', '.page-mast .mast-copy:has(+ .editorial-plate), .entry-copy > :is(.entry-category, h2), .practice-intro'],
+    ['rise', '.page-mast .mast-copy:not(:has(+ .editorial-plate)), .case-mast .page-lead, .article-deck'],
+    ['right', '.page-mast .mast-copy + .editorial-plate', 65],
+    ['settle', '.page-mast .pixel-composition', 65],
+    ['open-down', '.case-mast .editorial-plate, .article > .editorial-plate'],
+    ['uncover-left', ':is(.home-cases, .work-grid) > a:nth-child(odd) :is(.case-picture, .editorial-plate)'],
+    ['uncover-right', ':is(.home-cases, .work-grid) > a:nth-child(even) :is(.case-picture, .editorial-plate)'],
+    ['rise', '.home-case .case-meta, .work-card-copy', 75],
+    ['fade', '.entry-copy > .entry-intro', 65],
+    ['rise', '.entry-reading'],
+    ['chart', '.entry-figure'],
+    ['rise', '.practice-questions details:nth-child(1)'],
+    ['rise', '.practice-questions details:nth-child(2)', 50],
+    ['rise', '.practice-questions details:nth-child(3)', 100],
+    ['left', '.home-invitation .container > div:first-child, .practice-profile > h2'],
+    ['fade', '.home-invitation .container > div:last-child, .practice-profile > div', 90],
+    ['rise', '.service-detail > div:first-child'],
+    ['fade', '.service-detail > div:last-child', 80],
+    ['left', '.process-list article > .service-number'],
+    ['rise', '.process-list article > h2', 55],
+    ['fade', '.process-list article > p', 115],
+    ['settle', '.evidence-section .section-heading, .evidence-grid article'],
+    ['settle', '.stage-diagram, .lens-graph'],
+    ['bars', '.loss-chart'],
+    ['fade', '.case-intro > div, .scenario-layout > div:first-child', 75],
+    ['right', '.scenario-card, .contact-form', 65],
+    ['rise', '.reading-sidebar > h2, .reading-body > .large-copy'],
+    ['row', '.insight-row'],
+    ['fade', '.legal-copy > h2'],
+    ['rise', '.closing-inner > div'],
+    ['right', '.closing-inner > .button', 80]
+  ];
   const observer = new IntersectionObserver(entries => {
-    for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
-      entry.target.classList.add('in-view');
-      observer.unobserve(entry.target);
+    for (const {target, isIntersecting} of entries) {
+      if (!isIntersecting) continue;
+      observer.unobserve(target);
+      if (motion.matches && !target.contains(document.activeElement)) {
+        target.classList.add('is-entering');
+      }
     }
-  }, {threshold: 0.1});
-  for (const [role, selector] of Object.entries(roles)) {
-    document.querySelectorAll(selector).forEach(element => {
-      element.dataset.reveal = role;
-      observer.observe(element);
+  }, {threshold: 0.08});
+
+  for (const [effect, selector, delay] of entrances) {
+    document.querySelectorAll(selector).forEach(target => {
+      target.dataset.scrollEntrance = effect;
+      if (delay) target.style.setProperty('--scroll-delay', delay + 'ms');
+      observer.observe(target);
     });
   }
+
+  // Give focused content its final position immediately, even mid-entrance.
+  document.addEventListener('focusin', event => {
+    for (const target of document.querySelectorAll('.is-entering')) {
+      if (target.contains(event.target)) target.classList.remove('is-entering');
+    }
+  });
+  document.addEventListener('animationend', event => {
+    const {target, animationName} = event;
+    if (animationName === 'scroll-draw') {
+      target.closest('.entry-figure').classList.remove('is-entering');
+    } else if (animationName === 'scroll-grow-bar') {
+      const row = target.closest('.loss-row');
+      if (!row.nextElementSibling) row.parentElement.classList.remove('is-entering');
+    } else if (animationName.startsWith('scroll-') && !target.matches('.entry-figure, .loss-chart')) {
+      target.classList.remove('is-entering');
+    }
+  });
+  motion.addEventListener('change', event => {
+    if (!event.matches) {
+      document.querySelectorAll('.is-entering').forEach(target => target.classList.remove('is-entering'));
+    }
+  });
 })();

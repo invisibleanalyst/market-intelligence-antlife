@@ -93,26 +93,87 @@ body .editorial-plate img,body .case-picture img { display:block; width:100%; ob
 @media(prefers-reduced-motion:no-preference) {
   .home-case .case-picture img,.work-card .editorial-plate img { transition:transform var(--final-motion-time) var(--final-motion-ease); }
   .work-card:is(:hover,:focus-visible) .editorial-plate img { transform:scale(1.025); }
-  [data-reveal].in-view {
-    animation-duration: var(--final-motion-time);
-    animation-timing-function: var(--final-motion-ease);
+}
+/* Entrances only run after a section reaches the viewport. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-scroll-entrance].is-entering {
+    --scroll-travel: clamp(14px, 2vw, 28px);
+    animation: var(--scroll-entrance) var(--scroll-duration, 500ms) var(--final-motion-ease)
+               var(--scroll-delay, 0ms) both;
   }
-  [data-reveal="heading"].in-view { animation-name: heading-rise; }
-  [data-reveal="photo"].in-view { animation: photo-uncover 580ms var(--final-motion-ease); }
-  [data-reveal="chart"].in-view { animation: chart-sweep 680ms var(--final-motion-ease); }
-  @keyframes heading-rise {
-    from { opacity: .55; translate: 0 .35em; }
+  [data-scroll-entrance="rise"] { --scroll-entrance: scroll-rise; }
+  [data-scroll-entrance="left"] { --scroll-entrance: scroll-left; }
+  [data-scroll-entrance="right"] { --scroll-entrance: scroll-right; }
+  [data-scroll-entrance="fade"] { --scroll-entrance: scroll-fade; --scroll-duration: 460ms; }
+  [data-scroll-entrance="settle"] { --scroll-entrance: scroll-settle; --scroll-duration: 580ms; }
+  [data-scroll-entrance="row"] { --scroll-entrance: scroll-row; --scroll-duration: 540ms; }
+  [data-scroll-entrance="uncover-left"] { --scroll-entrance: scroll-uncover-left; --scroll-duration: 650ms; }
+  [data-scroll-entrance="uncover-right"] { --scroll-entrance: scroll-uncover-right; --scroll-duration: 650ms; }
+  [data-scroll-entrance="open-down"] { --scroll-entrance: scroll-open-down; --scroll-duration: 640ms; }
+  [data-scroll-entrance="chart"] { --scroll-entrance: scroll-right; --scroll-duration: 560ms; }
+  [data-scroll-entrance="bars"] { --scroll-entrance: scroll-fade; }
+
+  .entry-figure.is-entering .entry-series {
+    animation: scroll-draw 640ms var(--final-motion-ease) 115ms both;
+  }
+  .loss-chart.is-entering .loss-bar {
+    transform-origin: right center;
+    animation: scroll-grow-bar 550ms var(--final-motion-ease) both;
+  }
+  .loss-chart.is-entering .loss-row:nth-child(2) .loss-bar { animation-delay: 45ms; }
+  .loss-chart.is-entering .loss-row:nth-child(3) .loss-bar { animation-delay: 90ms; }
+  .loss-chart.is-entering .loss-row:nth-child(4) .loss-bar { animation-delay: 135ms; }
+
+  @keyframes scroll-rise {
+    from { opacity: .6; translate: 0 14px; }
     to { opacity: 1; translate: 0 0; }
   }
-  @keyframes photo-uncover {
-    from { clip-path: inset(8% 0 8% 0); opacity: .78; }
-    to { clip-path: inset(0); opacity: 1; }
+  @keyframes scroll-left {
+    from { opacity: .64; translate: calc(-1 * var(--scroll-travel)) 0; }
+    to { opacity: 1; translate: 0 0; }
   }
-  @keyframes chart-sweep {
-    from { clip-path: inset(-12px 100% -12px -12px); }
-    to { clip-path: inset(-12px); }
+  @keyframes scroll-right {
+    from { opacity: .64; translate: var(--scroll-travel) 0; }
+    to { opacity: 1; translate: 0 0; }
+  }
+  @keyframes scroll-fade {
+    from { opacity: .56; }
+    to { opacity: 1; }
+  }
+  @keyframes scroll-settle {
+    from { opacity: .62; scale: .975; }
+    to { opacity: 1; scale: 1; }
+  }
+  @keyframes scroll-row {
+    from { opacity: .6; translate: calc(-.45 * var(--scroll-travel)) 6px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+  @keyframes scroll-uncover-left {
+    from { opacity: .7; clip-path: inset(0 16% 0 0); }
+    to { opacity: 1; clip-path: inset(0); }
+  }
+  @keyframes scroll-uncover-right {
+    from { opacity: .7; clip-path: inset(0 0 0 16%); }
+    to { opacity: 1; clip-path: inset(0); }
+  }
+  @keyframes scroll-open-down {
+    from { opacity: .76; clip-path: inset(0 0 14% 0); }
+    to { opacity: 1; clip-path: inset(0); }
+  }
+  @keyframes scroll-draw {
+    from { clip-path: inset(-5px 100% -5px -5px); }
+    to { clip-path: inset(-5px); }
+  }
+  @keyframes scroll-grow-bar {
+    from { scale: .05 1; }
+    to { scale: 1 1; }
+  }
+
+  @media (max-width: 700px) {
+    [data-scroll-entrance].is-entering { --scroll-travel: 10px; }
   }
 }
+
 /* Controls share interaction states. Their base colours and selected states come from each surface. */
 :is(.relief-hero, .home-invitation, .closing, .case-mast, .case-explorer,
     .model-section, .scenario-layout, .service-laboratory, .contact-form) {
