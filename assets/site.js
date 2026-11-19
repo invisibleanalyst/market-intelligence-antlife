@@ -134,6 +134,74 @@ if (form) {
   });
 }
 
+// Reflect held keys and touch contact without changing native activation.
+(() => {
+  const actionLink = 'a[href]:is(.button, .nav-cta, .solid-action, .quiet-action, .rule-action, ' +
+    '.interior-link, .entry-contact, .back-link, .text-link, .practice-questions a, .lens-bottom > a, .home-case, .work-card)';
+  const nativeControl = 'button:enabled, details > summary';
+  let pressed;
+  let activationKey;
+  let touchControl;
+
+  function release() {
+    pressed?.removeAttribute('data-key-pressed');
+    pressed = undefined;
+    activationKey = undefined;
+  }
+
+  document.addEventListener('keydown', event => {
+    if (event.defaultPrevented || event.repeat || event.altKey || event.ctrlKey || event.metaKey) return;
+    const control = event.target;
+    if (!(control instanceof HTMLElement) || !['Enter', ' '].includes(event.key)) return;
+    if (!control.matches(nativeControl) &&
+        !(event.key === 'Enter' && control.matches(actionLink))) return;
+
+    release();
+    pressed = control;
+    activationKey = event.key;
+    pressed.setAttribute('data-key-pressed', '');
+  });
+  document.addEventListener('keyup', event => {
+    if (event.key === activationKey) release();
+  });
+  document.addEventListener('focusout', event => {
+    // Fragment navigation can move focus away before the activation key is released.
+    if (event.target === pressed && event.relatedTarget) release();
+  });
+
+  function clearTouch() {
+    touchControl?.removeAttribute('data-touch-state');
+    touchControl = undefined;
+  }
+
+  document.addEventListener('pointerdown', event => {
+    if (event.pointerType !== 'touch' || !event.isPrimary || !(event.target instanceof Element)) return;
+    clearTouch();
+    touchControl = event.target.closest(`${nativeControl}, ${actionLink}`);
+    if (touchControl) touchControl.dataset.touchState = 'pressed';
+  }, {passive: true});
+
+  function releaseTouch(event) {
+    if (event.pointerType === 'touch' && event.isPrimary && touchControl) {
+      touchControl.dataset.touchState = 'released';
+    }
+  }
+
+  document.addEventListener('pointerup', releaseTouch, {passive: true});
+  document.addEventListener('pointercancel', releaseTouch, {passive: true});
+  document.addEventListener('pointermove', event => {
+    if (event.pointerType === 'mouse' && touchControl?.dataset.touchState === 'released') clearTouch();
+  }, {passive: true});
+
+  function reset() {
+    release();
+    clearTouch();
+  }
+
+  window.addEventListener('blur', reset);
+  window.addEventListener('pagehide', reset);
+})();
+
 // Observe each element once. Its default presentation is always readable.
 (() => {
   if (!('IntersectionObserver' in window)) return;

@@ -18,7 +18,6 @@ body .site-header .brand img,.journal-v2 .site-header .brand img { content:url('
 body .site-header .header-inner { min-height:82px; }
 body .site-header #main-nav { font:400 14px/1.45 var(--mono); color:var(--final-ink); }
 body .site-header #main-nav .nav-cta { background:var(--final-green); color:#f7f7ef; border:1px solid var(--final-green); gap:20px; padding:9px 18px; }
-body .site-header #main-nav .nav-cta:hover { background:#21543c; }
 body .site-header .menu-icon i { background:var(--final-green); }
 body .site-header .menu-toggle { color:var(--final-green); font-family:var(--mono); }
 body .site-header :focus-visible,body .site-footer :focus-visible { outline:2px solid #417051; outline-offset:3px; }
@@ -76,22 +75,162 @@ body .editorial-plate img,body .case-picture img { display:block; width:100%; ob
     to { clip-path: inset(-12px); }
   }
 }
-@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
-  :is(button, .button, .nav-cta, .solid-action, .quiet-action, .rule-action, .interior-link, .entry-contact) {
-    transition: box-shadow 180ms ease-out, background-color 180ms ease-out, color 180ms ease-out;
+/* Controls share interaction states. Their base colours and selected states come from each surface. */
+:is(.relief-hero, .home-invitation, .closing, .case-mast, .case-explorer,
+    .model-section, .scenario-layout, .service-laboratory, .contact-form) {
+  --button-focus: var(--final-mark);
+}
+
+body :is(button, summary,
+         a:is(.button, .nav-cta, .solid-action, .quiet-action, .rule-action, .interior-link,
+              .entry-contact, .back-link, .text-link, .practice-questions a, .lens-bottom > a,
+              .home-case, .work-card)) {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  --button-arrow-progress: 0;
+
+  &:focus-visible:where(:not(.home-case, .work-card)) {
+    outline: 2px solid var(--button-focus, #315f42);
+    outline-offset: var(--button-focus-offset, 3px);
   }
-  :is(button:enabled, .button:not(:disabled), .nav-cta, .solid-action, .quiet-action, .rule-action, .interior-link, .entry-contact):hover {
-    box-shadow: inset 0 -2px currentColor;
-  }
-  :is(.button, .nav-cta, .solid-action, .quiet-action, .rule-action, .interior-link, .entry-contact) > :is(.arrow-icon, span[aria-hidden="true"]) {
-    transition: translate 180ms var(--final-motion-ease);
-  }
-  :is(.button:enabled, a.button, .nav-cta, .solid-action, .quiet-action, .rule-action, .interior-link, .entry-contact):hover > :is(.arrow-icon, span[aria-hidden="true"]) {
-    translate: 2px -1px;
+
+  &:where(:enabled, :any-link, summary) {
+    &:focus-visible {
+      --button-wash: .09;
+      --button-sweep: 0%;
+      --button-rule: 1;
+      --button-arrow-progress: 1;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not([data-touch-state]) {
+        --button-wash: .09;
+        --button-sweep: 0%;
+        --button-rule: 1;
+        --button-arrow-progress: 1;
+      }
+    }
+
+    &:is(:active:not([data-touch-state]), [data-touch-state="pressed"], [data-key-pressed]) {
+      --button-response: var(--button-press-duration, 65ms);
+      --button-wash: .19;
+      --button-sweep: 0%;
+      --button-rule: .68;
+      --button-arrow-progress: .25;
+      --button-travel: 2px;
+      --button-depth: 0px;
+      --button-recess: #071a1245;
+
+      @media (forced-colors: active) {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+      }
+    }
+
+    &[data-touch-state="pressed"] {
+      --button-press-duration: 0ms;
+    }
   }
 }
+
+/* A linked study card shares its interaction state with the action it contains. */
+:is(button, summary, a:is(.button, .nav-cta, .solid-action, .quiet-action, .rule-action,
+                         .interior-link, .entry-contact, .back-link, .text-link,
+                         .practice-questions a, .lens-bottom > a),
+    .work-card .interior-link, .home-case .case-picture > span) {
+  &:where(:not(.case-picture > span)) {
+    position: relative;
+  }
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background-color: currentColor;
+    opacity: var(--button-wash, 0);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &::before {
+      transition: opacity var(--button-response, 220ms) ease-out,
+                  background-position 440ms var(--final-motion-ease);
+    }
+
+    & > :is(.arrow-icon, span[aria-hidden="true"]) {
+      translate: calc(var(--button-arrow-progress) * var(--button-arrow-x, 4px))
+                 calc(var(--button-arrow-progress) * var(--button-arrow-y, -2px));
+      transition: translate var(--button-response, 260ms) var(--final-motion-ease);
+    }
+  }
+}
+
+/* The main actions have a shallow edge and a sweep across the face. */
+:is(.button, .nav-cta, .solid-action, .home-case .case-picture > span) {
+  --button-glint: #dcf4c8;
+  --button-edge: #081b14;
+  box-shadow: inset 0 1px #ffffff35, inset 0 2px var(--button-recess, transparent),
+              0 var(--button-depth, 2px) var(--button-edge);
+
+  &::before {
+    background-image: linear-gradient(110deg, transparent 22%, var(--button-glint) 50%, transparent 76%);
+    background-size: 230% 100%;
+    background-position: var(--button-sweep, 100%) 0;
+  }
+
+  &:disabled {
+    --button-depth: 0px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    translate: 0 var(--button-travel, 0px);
+    transition: translate var(--button-response, 220ms) var(--final-motion-ease),
+                box-shadow var(--button-response, 220ms) var(--final-motion-ease);
+  }
+}
+
+:is(.solid-action, .button-light, .home-case .case-picture > span) {
+  --button-glint: #9ebd7a;
+  --button-edge: #718565;
+}
+
+/* Text actions keep their lighter weight and put the feedback along the reading edge. */
+:is(a:is(.quiet-action, .rule-action, .interior-link, .entry-contact, .back-link,
+         .text-link, .practice-questions a, .lens-bottom > a), .work-card .interior-link)::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: currentColor;
+  pointer-events: none;
+  scale: var(--button-rule, 0) 1;
+  transform-origin: left;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: scale var(--button-response, 260ms) var(--final-motion-ease);
+  }
+}
+
+.quiet-action { --button-arrow-x: 0px; --button-arrow-y: 4px; }
+:is(.back-link, [data-stage-prev]) { --button-arrow-x: -4px; --button-arrow-y: 0px; }
+:is(.lens-tab, [data-stage-next]) { --button-arrow-y: 0px; }
+:is(.lens-tab, .stage-tabs button, .segmented button, .lens-scenarios button) {
+  --button-focus-offset: -4px;
+}
+body.journal-v2 .site-header :is(.nav-cta, .menu-toggle):focus-visible {
+  outline-color: #315f42;
+}
+body.journal-v2 .filter[aria-pressed="true"]:focus-visible {
+  outline: 2px solid #315f42;
+  outline-offset: 3px;
+}
+
 @media(prefers-reduced-motion:reduce) {
   .home-case:hover img,.work-card:hover img { transform:none; }
+  .menu-toggle .menu-icon i { transition:none; }
   html {scroll-behavior:auto;}
 }
 body .skip-link:focus { background:var(--final-paper); color:var(--final-green); outline:2px solid var(--final-green); }
