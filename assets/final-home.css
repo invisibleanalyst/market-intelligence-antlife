@@ -1,8 +1,9 @@
 .capital-home { background:var(--final-paper); color:var(--final-ink); font:400 18px/1.58 Figtree,Arial,sans-serif; }
 .capital-home .container { max-width:1600px; }
-.relief-hero { isolation:isolate; position:relative; overflow:hidden; background:#10251a; color:#f7f7ef; }
-.relief-landscape { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; }
-.relief-hero::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,#081d13b8,transparent 72%); z-index:-1; }
+.relief-hero { position:relative; overflow:hidden; background:#10251a; color:#f7f7ef; }
+.relief-stage { isolation:isolate; position:relative; overflow:hidden; }
+.relief-landscape { --relief-position:50%; object-position:var(--relief-position) center; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; }
+.relief-stage::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,#081d13b8,transparent 72%); z-index:-1; }
 .relief-content { min-height:clamp(575px,44vw,760px); padding-block:clamp(72px,7vw,118px); display:flex; flex-flow:column; justify-content:center; align-items:flex-start; }
 .relief-content h1,.capital-home main :is(.home-heading h2,.home-case h3,.practice-intro h2,.home-invitation h2) { font:400 clamp(44px,4.8vw,80px)/1.04 var(--final-serif); letter-spacing:-.055em; }
 .relief-content h1 { font-size:clamp(68px,7.2vw,116px); margin:0 0 20px; }
@@ -45,8 +46,8 @@
 @media(max-width:700px) {
  .relief-content { justify-content:flex-start; min-height:650px; padding-block:50px 240px; }
  .relief-content h1 { font-size:clamp(60px,11vw,82px); }
- .relief-landscape { top:auto; height:62%; object-position:72% center; }
- .relief-hero::after { background:linear-gradient(to bottom,#10251a 30%,#10251ae8 40%,transparent 71%); }
+ .relief-landscape { --relief-position:84%; top:auto; height:62%; }
+ .relief-stage::after { background:linear-gradient(to bottom,#10251a 30%,#10251ae8 40%,transparent 71%); }
  .relief-actions { gap:10px 18px; }
  .home-cases,.practice-grid,.home-invitation>.container { grid-template-columns:1fr; }
  .home-heading { align-items:flex-start; flex-direction:column; gap:8px; }

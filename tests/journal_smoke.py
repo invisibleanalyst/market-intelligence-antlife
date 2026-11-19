@@ -3,15 +3,50 @@ import asyncio
 import os
 from playwright.async_api import async_playwright, expect
 BASE=os.environ.get('ANTLIFE_TEST_URL','http://127.0.0.1:4174')
+
+async def check_relief(page, touch):
+ trigger = page.get_by_role('button', name='Trace the decision')
+ panel = page.locator('#relief-readout')
+ hero = page.locator('.relief-hero')
+ slider = panel.get_by_role('slider', name='Market B entry cost')
+ main_slider = page.locator('#entry-cost')
+ if touch:
+  await trigger.tap()
+ else:
+  await trigger.press('Enter')
+ await expect(trigger).to_have_attribute('aria-expanded', 'true')
+ await expect(panel.get_by_role('status')).to_have_text('Pilot Market B.')
+ await panel.get_by_role('button', name='Try the $37k tie').click()
+ await expect(main_slider).to_have_value('37')
+ await expect(panel.get_by_role('status')).to_have_text('The markets tie.')
+ for route in ('a', 'b'):
+  await expect(hero.locator(f'[data-route="{route}"]')).to_have_css('stroke-dasharray', 'none')
+ await slider.press('ArrowRight')
+ await expect(main_slider).to_have_value('38')
+ await expect(hero).to_have_attribute('data-relief-lead', 'a')
+ await expect(panel.get_by_role('status')).to_have_text('Pilot Market A.')
+ for label, heading in [('Demand', 'Compare the upside.'), ('Decision', 'Which market leads?')]:
+  await hero.get_by_role('button', name=label, exact=True).click()
+  await expect(panel.get_by_role('heading')).to_have_text(heading)
+ if touch:
+  await panel.get_by_role('button', name='Close decision explorer').tap()
+ else:
+  await page.keyboard.press('Escape')
+ await expect(panel).to_be_hidden()
+ await expect(trigger).to_be_focused()
+ await main_slider.fill('20')
+ await expect(hero).to_have_attribute('data-relief-lead', 'b')
+
 async def main():
  async with async_playwright() as p:
   b=await p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox'])
   cases=[('market-entry','Higher entry costs','Market C -7'),('feasibility','Lower margin','1,000: 4'),('diligence','More evidence','Contradicted: 2'),('sector','Cost pressure','Services: 26'),('strategy','Costs +$5k','Base revenue: 0'),('capital','New evidence','P6: 104')]
   for width in [390,1440]:
-   page=await b.new_page(viewport={'width':width,'height':960})
+   page=await b.new_page(viewport={'width':width,'height':960}, has_touch=width == 390)
    errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
    await page.goto(BASE,wait_until='networkidle')
    assert await page.locator('.relief-landscape').evaluate('(img) => img.complete && img.naturalWidth > 0')
+   await check_relief(page, touch=width == 390)
    study = page.locator('#entry-study')
    cost = study.locator('#entry-cost')
    net = study.locator('#market-b-net')
@@ -74,6 +109,7 @@ async def main():
    await page.close()
   static = await b.new_page(java_script_enabled=False,viewport={'width':390,'height':844})
   await static.goto(BASE)
+  await expect(static.get_by_role('button', name='Trace the decision')).to_be_hidden()
   await expect(static.locator('#entry-cost')).to_be_disabled()
   await expect(static.locator('#market-b-net')).to_have_text('$41k')
   await static.get_by_text('Is this investment viable?',exact=True).click()
@@ -81,5 +117,5 @@ async def main():
   await expect(static.locator('#feasibility h2')).to_be_visible()
   await static.close()
   await b.close()
- print('PASS: homepage entry-cost model and enquiry, six service demonstrations, keyboard controls, shareable service links, reduced motion and scrolling chapter state at mobile and desktop widths.')
+ print('PASS: relief explorer, shared entry-cost model and enquiry, six service demonstrations, keyboard controls, shareable service links, reduced motion and scrolling chapter state at mobile and desktop widths.')
 asyncio.run(main())

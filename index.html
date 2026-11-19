@@ -16,8 +16,9 @@
   <link rel="stylesheet" href="/assets/final-home.css">
   <link rel="stylesheet" href="/assets/final-workbench.css">
   <link rel="stylesheet" href="/assets/final-shell.css">
+  <link rel="stylesheet" href="/assets/relief-explorer.css">
   <script defer src="/assets/site.js"></script>
-  <script defer src="/assets/final-workbench.js"></script>
+  <script type="module" src="/assets/final-workbench.js"></script>
   <noscript><style>@media(max-width:900px){.header-inner{flex-wrap:wrap;padding-block:16px}.site-header #main-nav{position:static;display:flex;width:100%}.menu-toggle{display:none}}</style></noscript>
 </head>
 <body class="capital-home">
@@ -26,12 +27,67 @@
 
 <main id="main">
   <section class="relief-hero" aria-labelledby="relief-title">
-    <img class="relief-landscape" src="/assets/capital-relief.webp" alt="" fetchpriority="high" width="1942" height="809">
-    <div class="container relief-content">
-      <h1 id="relief-title">Before you<br><em>commit capital.</em></h1>
-      <p>Antlife researches markets and tests the economics behind a decision to enter, invest or wait.</p>
-      <div class="relief-actions"><a class="solid-action" href="/contact">Discuss a decision <span aria-hidden="true">↗</span></a><a class="quiet-action" href="#selected-work">Explore the work <span aria-hidden="true">↓</span></a></div>
+    <div class="relief-stage">
+      <img class="relief-landscape" src="/assets/capital-relief.webp" alt="" fetchpriority="high" width="1942" height="809">
+      <svg class="relief-map" viewBox="0 0 971 404.5" aria-hidden="true" hidden>
+        <g class="relief-contours" fill="none">
+          <path d="M406 401C433 379 443 359 475 349S530 344 553 323 595 296 622 291 642 273 662 263 721 263 743 251 764 228 799 224 858 212 904 187"/>
+          <path d="M467 345C495 332 520 337 537 319S566 299 592 294 622 283 645 264 704 251 733 235 767 220 795 206 844 196 861 182"/>
+          <path d="M499 302C521 283 549 277 571 256S605 246 631 231 659 208 692 206 721 181 749 175 790 158 804 139"/>
+          <path d="M573 312C603 297 636 301 662 286S714 274 740 278 784 260 817 253 867 247 910 221"/>
+          <path d="M629 363C661 353 658 338 685 325S759 320 796 304 827 287 857 286 901 270 947 264"/>
+          <path d="M701 179C726 162 742 153 755 131S780 107 790 88 804 76 825 60"/>
+        </g>
+        <g class="relief-routes" fill="none">
+          <path data-route="stem" d="M348 335C351 319 371 318 391 311S385 304 392 298 422 291 415 286 393 281 401 275 432 267 454 265 483 259 505 245 523 234 518 231 521 226 531 224 563 213 579 221 608 231 641 224C670 215 681 198 704 201S722 231 731 234"/>
+          <path data-route="a" d="M731 234C750 230 759 217 783 218S814 216 835 232"/>
+          <path data-route="b" d="M731 234C744 242 758 252 783 251S827 260 850 264"/>
+          <g class="relief-endpoints">
+            <g data-endpoint="a" transform="translate(835 232)"><circle r="10"/><text y=".35em">A</text></g>
+            <g data-endpoint="b" transform="translate(850 264)"><circle r="10"/><text y=".35em">B</text></g>
+          </g>
+        </g>
+        <g class="relief-sparks"></g>
+      </svg>
+      <div class="container relief-content">
+        <h1 id="relief-title">Before you<br><em>commit capital.</em></h1>
+        <p>Antlife researches markets and tests the economics behind a decision to enter, invest or wait.</p>
+        <div class="relief-actions"><a class="solid-action" href="/contact">Discuss a decision <span aria-hidden="true">↗</span></a><a class="quiet-action" href="#selected-work">Explore the work <span aria-hidden="true">↓</span></a></div>
+      </div>
+      <div class="relief-explore" hidden>
+        <button class="relief-trigger" type="button" aria-expanded="false" aria-controls="relief-readout">
+          <span class="relief-trigger-icon" aria-hidden="true">⌁</span> Trace the decision <span aria-hidden="true">↗</span>
+        </button>
+        <div class="relief-stops" role="group" aria-label="Decision points">
+          <button type="button" data-relief-stop="demand" data-x="531" data-y="224" aria-pressed="false" aria-controls="relief-readout"><span>Demand</span></button>
+          <button type="button" data-relief-stop="cost" data-x="641" data-y="224" aria-pressed="false" aria-controls="relief-readout"><span>Entry cost</span></button>
+          <button type="button" data-relief-stop="decision" data-x="731" data-y="234" aria-pressed="false" aria-controls="relief-readout"><span>Decision</span></button>
+        </div>
+      </div>
     </div>
+    <section class="relief-readout" id="relief-readout" aria-labelledby="relief-readout-title" hidden>
+      <div class="relief-readout-top">
+        <span>Illustrative market entry</span>
+        <button class="relief-close" type="button" aria-label="Close decision explorer">×</button>
+      </div>
+      <h2 id="relief-readout-title">Find the tipping point.</h2>
+      <p data-relief-view="demand" hidden>Before launch costs, Market A would contribute $44k and Market B $61k in year one. Market A costs $20k to enter. Use the entry-cost control to see when B loses its lead.</p>
+      <div data-relief-view="cost">
+        <div class="relief-cost-label"><label for="relief-cost">Market B entry cost</label><span id="relief-cost-value">$20,000</span></div>
+        <input id="relief-cost" type="range" min="0" max="60" step="1" value="20">
+      </div>
+      <div class="relief-outcome">
+        <dl>
+          <div data-market="a"><dt>Market A</dt><dd>$24k</dd></div>
+          <div data-market="b"><dt>Market B</dt><dd>$41k</dd></div>
+        </dl>
+        <p class="relief-result" role="status">Pilot Market B.</p>
+      </div>
+      <div class="relief-readout-actions">
+        <button class="relief-parity" type="button">Try the $37k tie</button>
+        <a href="#entry-study" class="relief-method">Full comparison <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
   </section>
 
   <section class="home-work" id="selected-work" aria-labelledby="work-title">

@@ -1,3 +1,5 @@
+import { initReliefExplorer } from './relief-explorer.js';
+
 // First-year contribution, in USD thousands. Operating contribution and A's entry
 // cost stay fixed while the user varies B's launch quote.
 (() => {
@@ -15,10 +17,13 @@
     style: 'currency', currency: 'USD', maximumFractionDigits: 0
   });
 
+  const updateRelief = initReliefExplorer(document.querySelector('.relief-hero'), slider, currency);
+
   function update() {
     const cost = slider.valueAsNumber;
     const netB = operatingB - cost;
     const difference = netB - netA;
+    updateRelief({ cost, netA, netB, difference, tieCost: operatingB - netA });
     const costInDollars = currency.format(cost * 1000);
     instrument.style.setProperty('--entry-position', (cost / Number(slider.max)) * 100 + '%');
     instrument.style.setProperty('--entry-b-y', (1 - netB / 65) * 100 + '%');
